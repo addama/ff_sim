@@ -22,7 +22,7 @@ Customization
 Currently, the names and numbers used by the individual pieces reside with each piece - Combatants know everything about every kind of Combatant, for example. I am currently in the process of extracting all of the strings and numbers out into a config.json file that can easily be edited. This file will be loaded via jQuery AJAX (because Javascript sucks at loading files), and pieced out to the constructors as they need them.
 
 Combatants
-==========
+----------
 
  * Races: human, dwarf, elf, halfling, troll, orc, giant
  
@@ -37,11 +37,31 @@ A combatant is created with these four qualities, each randomized. Races and Arc
 For example, let's create a new Combatant: `var gary = new Combatant('left', 0, 'healer', 'fire', 'troll', 'male')` The Combatant constructor recognizes that the combination of 'fire' element and 'rangedInt' archetype should be called a 'Pyromancer'. It also sees that Gary is both 'fire' element and 'troll' race, which it knows is called a 'fire troll'. This is displayed to the user as "Gary, Fire Troll Pyromancer".
 
 Abilities
-=========
+---------
 
 When _Gary, Fire Troll Pyromancer_ is constructed, three abilities are constructed for him: a 'healer' class ability, a 'troll' racial ability, and a 'fire' elemental ability. Each of these is individually and thematically named. Currently, each can carry one Effect, explained below, of relatively simple types. I have plans to integrate special Effects that run unique functionality. For example, the Tank Ability 'Guard' currently just buffs Vitality because that's the closest I could get to its real intended functionality. In future implementations, 'Guard' will provide a damage shield that absorbs a certain amount of damage until all of its protection has been eaten away by attacks.
 
 Effects
-=======
+-------
 
 Abilities resolve their functions through special objects called Effects. Straight damage abilities are resolved through the 'damage' Effect in the same way that 'dot', 'hot', 'buff', 'debuff', and 'heal' Effects are resolved. Combatants will have functionality to understand and apply Effects appropriately, without any of the Combatants needing to know others' stats or pass their own around. All of the information required for damage, healing, buffs, and debuffs is packaged and sent separately from everything else. 
+
+Current Work
+============
+
+ * Consolidating all configuration options into config.json, which will be loaded into and accessible from Configuration.js
+ * Removing configuration options from all objects, and relying on Configuration for their data
+ * Executing turns based on Battle.turnOrder, Battle.whoseTurnIsIt(), and Combatant.chooseAbility()
+ * Applying Effects to Combatants using some input function like Combatant.applyEffect(effect) or something like that.
+
+
+Future Plans
+============
+
+ * More elements, archetypes, and races. Merfolk (ice element only) and Demons (fire/evil/death element only) are next for races, for sure.
+ * Element-based weaknesses/strengths that modify damage. As it is now, there are uneven groupings (4 natural elements, 2 spiritual elements, 2 balance elements, and 2 internal elements). I could adopt the standard 5 Chinese elements to replace the natural ones I have (wood/life, metal/air, earth, fire, water/ice), which have standard 'better-thans' and 'weaker-tos'. Adding elements isn't an issue - adding them with respect to all previously added elements is a little tougher.
+ * Beasts! I want to fight not just humanoid Combatants, but Beasts. It's fair to say that Bears and Bee Swarms don't follow the same rules, archetypes, or even elements as Combatants, so a whole new object will need to be made for them.
+ * Full integration of config.json. As of this writing, it's there but not used. Once it's implemented, each object's line count will drop by about half with the removal of redundant data, and each instance won't have to carry all that information with it all the time.
+ * Effects with special functions. I had attempted to start with this feature, but soon found that it would be better to get it working with simple Effects (heal, damage, dot, hot, buff, debuff). At the very least, each archetype-based Ability will have a special Effect available only to that archetype. My most likely solution will be to add a function to the Combatant prototype that will have an object containing functions for each special rule. So, Combatant.specialEffect('guard', effect) would run the 'guard' special function based on the Effect it's given. I would rather that be contained in the Effect, but since the results of the special function will be entirely within the Combatant, it doesn't make sense to have the function run externally.
+ * Useful stats and secondary stats. Right now, stats are mostly for show, with the exception of Speed, which affects Battle.turnOrder. Naturally, Abilities will be tied to some combination of stats to calculate their damage, and the Combatant's defense against that damage. I would also like to have secondary stats like Dodge, Parry, and Crit, because those provide more flavor to the game.
+ * Armor and weapons. I'm on the fence about this one, but I've thought about adding Armor and Weapons to the game as randomized qualities passed to the Combatant constructor. These will probably operate on a secondary stat level, like Attack and Defense, but will have other logical stat changes (plate armor lowers Speed, for example). Armor will not get an Ability assigned to it, but Weapon probably will.
