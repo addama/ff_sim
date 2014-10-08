@@ -41,7 +41,11 @@ function Combatant(team, slot, archetype, element, race, gender) {
 	this.stats.archetype = config.stats.archetypes[this.archetype];
 	this.stats.mod = {
 		strength: 0, dexterity: 0, intellect: 0, wisdom: 0, vitality: 0, speed: 0
-	};
+	}
+	this.stats.health = {
+		now: this.stats.vitality * 10,
+		max: this.stats.vitality * 10
+	}
 	
 	// Get basic abilities
 	this.abilities = {};

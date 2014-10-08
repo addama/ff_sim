@@ -1,5 +1,4 @@
 function Ability(type) {
-	//console.log('[ABILITY] ' + type);
 	this.type = (config.validateAbility(type)) ? type : 'attack'
 	this.title = config.titles.abilities[type];
 	this.element = (config.abilityElements[type]) ? config.abilityElements[type] : this.type;
@@ -8,8 +7,6 @@ function Ability(type) {
 	this.target = (config.abilities[type].effect.target) ? config.abilities[type].effect.target : config.variables.defaults.target;
 		
 	this.payLoad = this.makeEffect();
-	
-	//console.log(this.payLoad);
 };
 
 Ability.prototype = {
@@ -53,7 +50,6 @@ Ability.prototype = {
 	},
 	
 	makeEffect: function() {
-		console.log(this.baseDamage);
 		var effect = new Effect(this.effect, this.element, this.target, this.baseDamage);
 		return effect;
 	},
