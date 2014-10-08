@@ -24,6 +24,210 @@
 		"psychic": 	"intellect"
 	},
 	
+	"abilities": {
+		"fire": {
+			"element": "fire",
+			"baseDamage": 1,
+			"effect": {
+				"type": "damage",
+				"target": "target"
+			}
+		},
+		"ice": {
+			"element": "ice",
+			"baseDamage": 1,
+			"effect": {
+				"type": "damage",
+				"target": "target"
+			}
+		},
+		"earth": {
+			"element": "earth",
+			"baseDamage": 1,
+			"effect": {
+				"type": "dot",
+				"target": "targetParty"
+			}
+		},
+		"air": {
+			"element": "air",
+			"baseDamage": 1,
+			"effect": {
+				"type": "damage",
+				"target": "target"
+			}
+		},
+		"holy": {
+			"element": "holy",
+			"baseDamage": 1,
+			"effect": {
+				"type": "buff",
+				"target": "selfParty"
+			}
+		},
+		"evil": {
+			"element": "evil",
+			"baseDamage": 1,
+			"effect": {
+				"type": "debuff",
+				"target": "targetParty"
+			}
+		},
+		"life": {
+			"element": "life",
+			"baseDamage": 1,
+			"effect": {
+				"type": "hot",
+				"target": "target"
+			}
+		},
+		"death": {
+			"element": "death",
+			"baseDamage": 1,
+			"effect": {
+				"type": "dot",
+				"target": "target"
+			}
+		},
+		"physical": {
+			"element": "physical",
+			"baseDamage": 1,
+			"effect": {
+				"type": "damage",
+				"target": "target"
+			}
+		},
+		"psychic": {
+			"element": "psychic",
+			"baseDamage": 1,
+			"effect": {
+				"type": "damage",
+				"target": "target"
+			}
+		},
+		
+		"human": {
+			"element": "physical",
+			"baseDamage": 1,
+			"effect": {
+				"type": "hot",
+				"target": "self"
+			}
+		},
+		"dwarf": {
+			"element": "physical",
+			"baseDamage": 1,
+			"effect": {
+				"type": "buff",
+				"target": "self"
+			}
+		},
+		"elf": {
+			"element": "physical",
+			"baseDamage": 1,
+			"effect": {
+				"type": "buff",
+				"target": "self"
+			}
+		},
+		"halfling": {
+			"element": "physical",
+			"baseDamage": 1,
+			"effect": {
+				"type": "buff",
+				"target": "self"
+			}
+		},
+		"troll": {
+			"element": "physical",
+			"baseDamage": 1,
+			"effect": {
+				"type": "hot",
+				"target": "self"
+			}
+		},
+		"orc": {
+			"element": "physical",
+			"baseDamage": 1,
+			"effect": {
+				"type": "buff",
+				"target": "self"
+			}
+		},
+		"giant": {
+			"element": "physical",
+			"baseDamage": 1,
+			"effect": {
+				"type": "damage",
+				"target": "targetParty"
+			}
+		},
+		
+		"tank": {
+			"element": "physical",
+			"baseDamage": 1,
+			"effect": {
+				"type": "buff",
+				"target": "self"
+			}
+		},
+		"healer": {
+			"element": "life",
+			"baseDamage": 1,
+			"effect": {
+				"type": "heal",
+				"target": "selfParty"
+			}
+		},
+		"meleeDex": {
+			"element": "physical",
+			"baseDamage": 1,
+			"effect": {
+				"type": "damage",
+				"target": "target"
+			}
+		},
+		"meleeStr": {
+			"element": "physical",
+			"baseDamage": 1,
+			"effect": {
+				"type": "damage",
+				"target": "targetParty"
+			}
+		},
+		"rangedInt": {
+			"element": "physical",
+			"baseDamage": 1,
+			"effect": {
+				"type": "damage",
+				"target": "target"
+			}
+		},
+		"rangedDex": {
+			"element": "physical",
+			"baseDamage": 1,
+			"effect": {
+				"type": "damage",
+				"target": "target"
+			}
+		}
+	},
+	
+	"abilityElements": {
+		"tank":		"physical",
+		"healer":	"life",
+		"meleeDex":	"physical",
+		"meleeStr":	"physical",
+		"rangedInt":	"fire",
+		"rangedDex":	"physical",
+		"human":		"physical",
+		"dwarf":		"earth",
+		"halfling":		"air",
+		"orc":			"physical",
+		"troll":		"physical",
+		"giant":		"physical"
+	},
+	
 	"stats": {
 		"races": {
 			"human": {
