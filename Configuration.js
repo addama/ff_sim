@@ -1,7 +1,7 @@
 function Configuration() {
-	this.config = this.loadConfiguration();
+	this.loadConfiguration();
 		
-
+	console.log(this);
 }
 
 Configuration.prototype = {
@@ -10,12 +10,15 @@ Configuration.prototype = {
 	config: {},
 	
 	loadConfiguration: function() {
+		var app = this;
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function()	{
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {
 					var cfg = JSON.parse(xhr.responseText);
-					return cfg;				
+					for (var element in cfg) {
+						app[element] = cfg[element];
+					}		
 				} else {
 					console.warn('Could not load ' + this.configLocation);
 				}
