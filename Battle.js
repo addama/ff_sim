@@ -1,29 +1,27 @@
 function Battle(partySize) {
 	// Wait a second for config.json to be loaded into config
 	var app = this;
-	//setTimeout(function() {
-		// Set the party size
-		app.partySize = config.variables.partySize;
-		if (partySize && partySize > 1) app.partySize = partySize;
-		
-		// Define the roster
-		app.roster = {};
-		for (var i = 0; i < config.variables.teams; i++) {
-			var name = config.variables.defaults.teamNames[i]
-			app.roster[name] = [];
+	// Set the party size
+	app.partySize = config.variables.partySize;
+	if (partySize && partySize > 1) app.partySize = partySize;
+	
+	// Define the roster
+	app.roster = {};
+	for (var i = 0; i < config.variables.teams; i++) {
+		var name = config.variables.defaults.teamNames[i]
+		app.roster[name] = [];
+	}
+	
+	// Build the teams
+	for (var i = 0; i < app.partySize; i++) {
+		for (var team in app.roster) {
+			var combatant = app.createCombatant(team, i.toString());
+			app.roster[team].push(combatant);
 		}
 		
-		// Build the teams
-		for (var i = 0; i < app.partySize; i++) {
-			for (var team in app.roster) {
-				var combatant = app.createCombatant(team, i.toString());
-				app.roster[team].push(combatant);
-			}
-			
-		}
-		app.makeTurnOrder();
-		app.currentCombatant = 0;
-	//}, 100);
+	}
+	app.makeTurnOrder();
+	app.currentCombatant = 0;
 };
 
 Battle.prototype = {
@@ -53,7 +51,7 @@ Battle.prototype = {
 		this.turnOrder = [];
 		for (var side in this.roster) {
 			for (var person in this.roster[side]) {
-				this.turnOrder.push({slot: person, team: side, speed: this.roster[side][person].zipperStat('speed')});
+				this.turnOrder.push({'slot': person, 'team': side, 'speed': this.roster[side][person].zipperStat('speed')});
 			}
 		}
 		
@@ -71,17 +69,14 @@ Battle.prototype = {
 		if (this.currentCombatant === null) {
 			this.currentCombatant = 0;
 		}
-		if (this.turnOrder) {
-			var slot = this.turnOrder[this.currentCombatant].slot;
-			var side = this.turnOrder[this.currentCombatant].team;
-			return this.roster[side][slot];
-		} else {
-			console.log('Something went wrong');
-		}
+		if (this.turnOrder) this.makeTurnOrder();
+		var slot = this.turnOrder[this.currentCombatant].slot;
+		var side = this.turnOrder[this.currentCombatant].team;
+		return this.roster[side][slot];	
 	},
 	
 	nextActor: function() {
-		if (this.currentCombatant === this.turnOrder.length -1) {
+		if (this.currentCombatant === this.turnOrder.length - 1) {
 			this.currentCombatant = 0;
 		} else {
 			this.currentCombatant += 1;
@@ -94,7 +89,7 @@ Battle.prototype = {
 		for (var team in this.roster) {
 			for (var person in this.roster[team]) {
 				var him = this.roster[team][person];
-				state.push([him.team, him.slot, him.stats.health.now]);
+				state.push({team: him.team, slot: him.slot, health: him.stats.health.now});
 			}
 		}
 		return state;
@@ -106,14 +101,15 @@ Battle.prototype = {
 	},
 	
 	startBattle: function() {
-		while (this.teamsAreAlive()) {
+		//while (this.teamsAreAlive()) {
 			var state = this.generateState();
+			console.log(state);
 			var actor = this.getCurrentActor();
 			var action = actor.chooseAbility(state);
 			console.log(action);
 			this.applyEffect(action);
 			this.nextActor();
-		}
+		//}
 	},
 
 }
