@@ -44,4 +44,22 @@ When _Gary, Fire Troll Pyromancer_ is constructed, three abilities are construct
 Effects
 =======
 
-Abilities resolve their functions through special objects called Effects. Straight damage abilities are resolved through the 'damage' Effect in the same way that 'dot', 'hot', 'buff', 'debuff', and 'heal' Effects are resolved. Combatants will have functionality to understand and apply Effects appropriately, without any of the Combatants needing to know others' stats or pass their own around. All of the information required for damage, healing, buffs, and debuffs is packaged and sent separately from everything else. 
+Abilities resolve their functions through special objects called Effects. Straight damage abilities are resolved through the 'damage' Effect in the same way that 'dot', 'hot', 'buff', 'debuff', and 'heal' Effects are resolved. Combatants will have functionality to understand and apply Effects appropriately, without any of the Combatants needing to know others' stats or pass their own around. All of the information required for damage, healing, buffs, and debuffs is packaged and sent separately from everything else.
+
+Current Work
+============
+
+* Consolidating all configuration options into config.json, which will be loaded into and accessible from Configuration.js
+* Removing configuration options from all objects, and relying on Configuration for their data
+* Executing turns based on `Battle.turnOrder`, `Battle.whoseTurnIsIt()`, and `Combatant.chooseAbility()`
+
+Future Plans
+============
+
+ * More elements, archetypes, and races. Merfolk (ice element only) and Demons (fire/evil/death element only) are next for races, for sure.
+ * Element-based weaknesses/strengths that modify damage. As it is now, there are uneven groupings (4 natural elements, 2 spiritual elements, 2 balance elements, and 2 internal elements). I could adopt the standard 5 Chinese elements to replace the natural ones I have (wood/life, metal/air, earth, fire, water/ice), which have standard 'better-thans' and 'weaker-tos'. Adding elements isn't an issue - adding them with respect to all previously added elements is a little tougher.
+ * Beasts! I want to fight not just humanoid Combatants, but Beasts. It's fair to say that Bears and Bee Swarms don't follow the same rules, archetypes, or even elements as Combatants, so a whole new object will need to be made for them.
+ * Full integration of config.json. As of this writing, it's there but not used. Once it's implemented, each object's line count will drop by about half with the removal of redundant data, and each instance won't have to carry all that information with it all the time.
+ * Effects with special functions. I had attempted to start with this feature, but soon found that it would be better to get it working with simple Effects (heal, damage, dot, hot, buff, debuff). At the very least, each archetype-based Ability will have a special Effect available only to that archetype. My most likely solution will be to add a function to the Combatant prototype that will have an object containing functions for each special rule. So, `Combatant.specialEffect('guard', effect)` would run the 'guard' special function based on the Effect it's given. I would rather that be contained in the Effect, but since the results of the special function will be entirely within the Combatant, it doesn't make sense to have the function run externally.
+ * Useful stats and secondary stats. Right now, stats are mostly for show, with the exception of Speed, which affects `Battle.turnOrder`. Naturally, Abilities will be tied to some combination of stats to calculate their damage, and the Combatant's defense against that damage. I would also like to have secondary stats like Dodge, Parry, and Crit, because those provide more flavor to the game.
+ * Armor and weapons. I'm on the fence about this one, but I've thought about adding Armor and Weapons to the game as randomized qualities passed to the Combatant constructor. These will probably operate on a secondary stat level, like Attack and Defense, but will have other logical stat changes (plate armor lowers Speed, for example). Armor will not get an Ability assigned to it, but Weapon probably will.
