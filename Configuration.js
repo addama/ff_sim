@@ -1,7 +1,6 @@
 function Configuration() {
 	this.loadConfiguration();
-		
-	console.log(this);
+	
 }
 
 Configuration.prototype = {
