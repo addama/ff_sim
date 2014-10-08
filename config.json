@@ -7,6 +7,7 @@
 		"races": 		[ "human", "dwarf", "elf", "orc", "troll", "halfling", "giant" ],
 		"effects": 		[ "heal", "damage", "dot", "hot", "buff", "debuff" ],
 		"stats": 		[ "strength", "dexterity", "intellect", "wisdom", "vitality", "speed" ],
+		"abilityTypes":	[ "race", "element", "archetype" ],
 		"abilities": 	[ "attack", "fire", "ice", "earth", "air", "holy", "evil", "life", "death", "physical", "psychic", "human", "dwarf", "elf", "halfling", "troll", "giant", "orc", "tank", "healer", "rangedInt", "rangedDex", "meleeDex", "meleeStr"	]
 	},
 	
@@ -136,6 +137,80 @@
 	},
 	
 	"titles": {
+		"archetypes": {
+			"tank": {
+				"air": 		"Stormtrooper",
+				"earth": 		"Seigebreaker",
+				"holy": 		"Paladin",
+				"evil": 		"Doomlord",
+				"life": 		"Life Warden",
+				"death": 		"Death Knight",
+				"fire": 		"Salamander",
+				"ice": 		"Vanguard",
+				"physical": 	"Warrior",
+				"psychic": 	"Mageknight"
+			},
+			"healer": {
+				"air": 		"Stormsinger",
+				"earth": 		"Druid",
+				"holy": 		"Cleric",
+				"evil": 		"Fleshbinder",
+				"life": 		"Druid",
+				"death": 		"Lich",
+				"fire": 		"Taskmaster",
+				"ice": 		"Skald",
+				"physical": 	"Battle Priest",
+				"psychic": 	"Eidolon"
+			},
+			"meleeDex": {
+				"air": 		"Dervish",
+				"earth": 		"Ranger",
+				"holy": 		"Monk",
+				"evil": 		"Rogue",
+				"life": 		"Swordsage",
+				"death": 		"Assassin",
+				"fire": 		"Pirate",
+				"ice": 		"Frostwalker",
+				"physical": 	"Berserker",
+				"psychic": 	"Mindblade"
+			},
+			"meleeStr": {
+				"air": 		"Wanderer",
+				"earth": 		"Mountaineer",
+				"holy": 		"Crusader",
+				"evil": 		"Dreadnought",
+				"life": 		"Avenger",
+				"death": 		"Executioner",
+				"fire": 		"Dragon Knight",
+				"ice": 		"Rune Carver",
+				"physical": 	"Berzerker",
+				"psychic": 	"Harrier"
+			},
+			"rangedDex": {
+				"air": 		"Outrider",
+				"earth": 		"Ranger",
+				"holy": 		"Herald",
+				"evil": 		"Stalker",
+				"life": 		"Hivemaster",
+				"death": 		"Dirgesinger",
+				"fire": 		"Sapper",
+				"ice": 		"Spellbreaker",
+				"physical": 	"Archer",
+				"psychic": 	"Bard"
+			},
+			"rangedInt": {
+				"air": 		"Aeromancer",
+				"earth": 		"Shaman",
+				"holy": 		"Priest",
+				"evil": 		"Warlock",
+				"life": 		"Bloodmage",
+				"death": 		"Necromancer",
+				"fire": 		"Pyromancer",
+				"ice": 		"Frostmage",
+				"physical": 	"Librarian",
+				"psychic": 	"Mindwarp"
+			}
+		},
 		"races": {
 			"human": {
 				"fire": "",
