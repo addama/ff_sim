@@ -6,15 +6,18 @@ ff_sim is a Javascript engine, written in (mostly) OOP structure, whose purpose 
 Key Features
 ============
 
-h3.Randomization
+Randomization
+-------------
  
 Each combatant is comprised of several randomized qualities, which are baked together using fantasy themed rules and functions (no female dwarves, giants aren't smart enough to be mages, etc). Nearly every combination of qualities in Combatants, Abilities, and Effects has a distinct name. In all, over 800 distinct Combatants (at the time of this writing) are possible. This is nearly infinitely extensible as long as you don't run out of names to call things. 
  
-h3.Behavior
+Behavior
+--------
 
 In its initial state, random abilities are chosen by a combatant when it's their turn. When complete, distinct behavior functions will choose which ability to use after surveying the battle. Each archetype (tank, healer, rangedInt, rangedDex, meleeDex, meleeStr) will be defined with distinct choices and preferences.
 
-h3.Customization
+Customization
+-------------
 
 Currently, the names and numbers used by the individual pieces reside with each piece - Combatants know everything about every kind of Combatant, for example. I am currently in the process of extracting all of the strings and numbers out into a config.json file that can easily be edited. This file will be loaded via jQuery AJAX (because Javascript sucks at loading files), and pieced out to the constructors as they need them.
 
