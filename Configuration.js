@@ -5,7 +5,7 @@ function Configuration() {
 Configuration.prototype = {
 	constructor: Configuration,
 	configLocation: './config.json',
-	config: {},
+	isLoaded: false,
 	
 	loadConfiguration: function() {
 		var app = this;
@@ -49,13 +49,20 @@ Configuration.prototype = {
 	},
 
 	// Validation functions
-	validateType: function(type) {			return (this.lists.archetypes.indexOf(type)) ? true : false		},
+	validateArchetype: function(archetype) {return (this.lists.archetypes.indexOf(archetype)) ? true : false},
 	validateElement: function(element) {	return (this.lists.elements.indexOf(element)) ? true : false	},
 	validateTarget: function(target) {		return (this.lists.targets.indexOf(target)) ? true : false 		},
 	validateGender: function(gender) {		return (this.lists.genders.indexOf(gender)) ? true : false		},
 	validateRace: function(race) {			return (this.lists.races.indexOf(race)) ? true : false			},
 	validateStat: function(stat) {			return (this.lists.stats.indexOf(stat)) ? true : false			},
 	validateEffect: function(effect) {		return (this.lists.effects.indexOf(effect)) ? true : false		},
+	validateAbility: function(ability) {	return (this.lists.abilities.indexOf(ability)) ? true : false	},
+	
+	validateConfiguration: function() {
+		// Checks the configuration to make sure that the items mentioned in the lists object are expanded upon in the other objects
+		// This is important because other objects use the lists to know what's available to them
+		
+	},
 	
 	// Utility functions
 	abbreviateStat: function(stat) {

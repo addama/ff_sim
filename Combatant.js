@@ -98,6 +98,7 @@ Combatant.prototype = {
 		for (var ability in this.abilities) {
 			ability = this.abilities[ability];
 			result += '\t- ' + ability.displayName() + '\n';
+			result += '\t  ' + ability.displayStats() + '\n\n';
 		}
 		return result;
 	},
