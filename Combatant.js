@@ -76,18 +76,11 @@ Combatant.prototype = {
 		return result;
 	},
 	
-	abbreviateStat: function(stat) {
-		// Return a 3 letter abbreviation of the given stat name
-		if (stat === 'speed') stat = 'spd';
-		var show = stat.substr(0,3);
-		return show.toUpperCase();
-	},
-	
 	displayStats: function() {
 		var result = '';
 		for (var stat in config.lists.stats) {
 			stat = config.lists.stats[stat].toLowerCase();
-			var show = this.abbreviateStat(stat);
+			var show = config.abbreviateStat(stat);
 			result += '[' + show + '] ' + this.zipperStat(stat) + '\t(' + this.stats.race[stat] + ',' + this.stats.archetype[stat] + ',' + this.stats.mod[stat] + ')\n';
 		}
 		return result;
