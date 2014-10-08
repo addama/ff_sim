@@ -1,14 +1,16 @@
 function Battle(partySize) {
 	// Wait a second for config.json to be loaded into config
 	var app = this;
-	setTimeout(function() {
+	//setTimeout(function() {
 		// Set the party size
 		app.partySize = config.variables.partySize;
 		if (partySize && partySize > 1) app.partySize = partySize;
 		
-		// Define the teams
+		// Define the roster
+		app.roster = {};
 		for (var i = 0; i < config.variables.teams; i++) {
-			app.roster[config.variables.defaults.teamNames[i]] = [];
+			var name = config.variables.defaults.teamNames[i]
+			app.roster[name] = [];
 		}
 		
 		// Build the teams
@@ -20,17 +22,13 @@ function Battle(partySize) {
 			
 		}
 		app.makeTurnOrder();
-		console.log(app.turnOrder);
 		app.currentCombatant = 0;
-		console.log(app.whoseTurnIsIt());
-	}, 100);
+	//}, 100);
 };
 
 Battle.prototype = {
 	constructor: Battle,
-	
 	roster: {},
-	turnOrder: [],
 	currentCombatant: 0,
 	
 	createCombatant: function(team, slot, type, element, race, gender) {
@@ -52,27 +50,70 @@ Battle.prototype = {
 				return ((x < y) ? -1 : ((x > y) ? 1 : 0));
 			});
 		}	
-		
-		for (var team in this.roster) {
-			for (var person in this.roster[team]) {
-				this.turnOrder.push({slot: person, 'team': team, speed: this.roster[team][person].zipperStat('speed')});
+		this.turnOrder = [];
+		for (var side in this.roster) {
+			for (var person in this.roster[side]) {
+				this.turnOrder.push({slot: person, team: side, speed: this.roster[side][person].zipperStat('speed')});
 			}
-			this.turnOrder = sortBySpeed(this.turnOrder);
-			this.turnOrder.reverse();
 		}
+		
+		this.turnOrder = sortBySpeed(this.turnOrder);
+		this.turnOrder.reverse();
 	},
 	
-	whoseTurnIsIt: function() {
-		if (!this.currentCombatant) {
+	teamsAreAlive: function() {
+		// Check each team to see if at least once of their combatants are alive
+		// Returns false if any teams are completely dead
+		return true;
+	},
+	
+	getCurrentActor: function() {
+		if (this.currentCombatant === null) {
 			this.currentCombatant = 0;
 		}
-		
-		return this.roster[this.turnOrder[this.currentCombatant].team][this.turnOrder[this.currentCombatant].slot];
+		if (this.turnOrder) {
+			var slot = this.turnOrder[this.currentCombatant].slot;
+			var side = this.turnOrder[this.currentCombatant].team;
+			return this.roster[side][slot];
+		} else {
+			console.log('Something went wrong');
+		}
 	},
 	
-	executeTurn: function() {
-		var actor = this.whoseTurnIsIt();
-		var action = actor.chooseAbility();
+	nextActor: function() {
+		if (this.currentCombatant === this.turnOrder.length -1) {
+			this.currentCombatant = 0;
+		} else {
+			this.currentCombatant += 1;
+		}
+	},
+	
+	generateState: function() {
+		// Creates an object that contains health values for every combatant
+		var state = [];
+		for (var team in this.roster) {
+			for (var person in this.roster[team]) {
+				var him = this.roster[team][person];
+				state.push([him.team, him.slot, him.stats.health.now]);
+			}
+		}
+		return state;
+	},
+	
+	applyEffect: function(effect) {
+		// Overwatch function that takes apart Effects and instructs Combatants in how to take them
 		
 	},
+	
+	startBattle: function() {
+		while (this.teamsAreAlive()) {
+			var state = this.generateState();
+			var actor = this.getCurrentActor();
+			var action = actor.chooseAbility(state);
+			console.log(action);
+			this.applyEffect(action);
+			this.nextActor();
+		}
+	},
+
 }
