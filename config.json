@@ -196,7 +196,7 @@
 			}
 		},
 		"rangedInt": {
-			"element": "physical",
+			"element": "fire",
 			"baseDamage": 1,
 			"effect": {
 				"type": "damage",
@@ -606,11 +606,15 @@
 	
 	"variables": {
 		"partySize": 		3,
-		"dotDuration": 		3,
-		"hotDuration": 		3,
 		"teams":			2,
+		"durations": {
+			"dot":			3,
+			"hot":			3,
+			"buff":			3,
+			"debuff":		3
+		},
 		"defaults": {
-			"damage": 		10,
+			"baseDamage": 		10,
 			"element": 		"physical",
 			"archetype": 	"meleeStr",
 			"gender": 		"male",
