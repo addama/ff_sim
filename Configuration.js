@@ -1,158 +1,28 @@
-function Configuration() {}
+function Configuration() {
+	this.config = this.loadConfiguration();
+		
+
+}
 
 Configuration.prototype = {
 	constructor: Configuration,
+	configLocation: './config.json',
+	config: {},
 	
-	// Lists
-	lists: {
-		archetypes: [ 'tank', 'healer', 'rangedInt', 'rangedDex', 'meleeStr', 'meleeDex' ],
-		elements: 	[ 'fire', 'ice', 'earth', 'air', 'holy', 'evil', 'life', 'death', 'physical', 'psychic' ],
-		targets: 	[ 'self', 'target', 'targetParty', 'selfParty' ],
-		genders: 	[ 'male', 'female' ],
-		races: 		[ 'human', 'dwarf', 'elf', 'orc', 'troll', 'halfling', 'giant' ],
-		effects: 	[ 'heal', 'damage', 'dot', 'hot', 'buff', 'debuff' ],
-		stats: 		[ 'strength', 'dexterity', 'intellect', 'wisdom', 'vitality', 'speed' ],
-		abilities: 	[ 
-					'attack', 'fire', 'ice', 'earth', 'air', 'holy', 'evil', 'life', 'death', 'physical', 'psychic', 
-					'human', 'dwarf', 'elf', 'halfling', 'troll', 'giant', 'orc',
-					'tank', 'healer', 'rangedInt', 'rangedDex', 'meleeDex', 'meleeStr'
-		],
-	},
-	
-	titles: {
-		races: {
-			human: {
-				fire: {},
-				ice: {},
-				earth: {},
-				air: {},
-				holy: {},
-				evil: {},
-				life: {},
-				death: {},
-				physical: {},
-				psychic: {},
-			},
-			dwarf: {
-				fire: {},
-				ice: {},
-				earth: {},
-				air: {},
-				holy: {},
-				evil: {},
-				life: {},
-				death: {},
-				physical: {},
-				psychic: {},
-			},
-			elf: {
-				fire: {},
-				ice: {},
-				earth: {},
-				air: {},
-				holy: {},
-				evil: {},
-				life: {},
-				death: {},
-				physical: {},
-				psychic: {},
-			},
-			orc: {
-				fire: {},
-				ice: {},
-				earth: {},
-				air: {},
-				holy: {},
-				evil: {},
-				life: {},
-				death: {},
-				physical: {},
-				psychic: {},
-			},
-			troll: {
-				fire: {},
-				ice: {},
-				earth: {},
-				air: {},
-				holy: {},
-				evil: {},
-				life: {},
-				death: {},
-				physical: {},
-				psychic: {},
-			},
-			halfling: {
-				fire: {},
-				ice: {},
-				earth: {},
-				air: {},
-				holy: {},
-				evil: {},
-				life: {},
-				death: {},
-				physical: {},
-				psychic: {},
-			},
-			giant: {
-				fire: {},
-				ice: {},
-				earth: {},
-				air: {},
-				holy: {},
-				evil: {},
-				life: {},
-				death: {},
-				physical: {},
-				psychic: {},
-			},
-		},
-		
-		abilities: {
-			
-			fire: {},
-			ice: {},
-			earth: {},
-			air: {},
-			holy: {},
-			evil: {},
-			life: {},
-			death: {},
-			physical: {},
-			psychic: {},
-		},
-		
-		effects: {
-			fire: {},
-			ice: {},
-			earth: {},
-			air: {},
-			holy: {},
-			evil: {},
-			life: {},
-			death: {},
-			physical: {},
-			psychic: {},
-		}
-	},
-	
-	variables: {
-		partySize: 		3,
-		dotDuration: 	3,
-		hotDuration: 	3,
-		teams:			2,
-		defaults: {
-			damage: 	10,
-			element: 	'physical',
-			archetype: 	'meleeStr',
-			gender: 	'male',
-			effect: 	'damage',
-			target: 	'target',
-			race:		'human',
-			stat:		'vitality',
-			teamNames:	[ 'left', 'right', 'top', 'bottom' ],
-		}
-		
-	
+	loadConfiguration: function() {
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function()	{
+			if (xhr.readyState === 4) {
+				if (xhr.status === 200) {
+					var cfg = JSON.parse(xhr.responseText);
+					return cfg;				
+				} else {
+					console.warn('Could not load ' + this.configLocation);
+				}
+			}
+		};
+		xhr.open("GET", this.configLocation, true);
+		xhr.send();
 	},
 	
 	// Randomization functions
