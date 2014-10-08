@@ -1,3 +1,8 @@
 var config = new Configuration();
-
-var battle = new Battle();
+var battle;
+setTimeout(function() {
+	battle = new Battle();
+	
+	//battle.startBattle();
+	
+}, 100);
