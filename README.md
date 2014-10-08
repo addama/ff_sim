@@ -52,6 +52,7 @@ Current Work
 * Consolidating all configuration options into config.json, which will be loaded into and accessible from Configuration.js
 * Removing configuration options from all objects, and relying on Configuration for their data
 * Executing turns based on `Battle.turnOrder`, `Battle.whoseTurnIsIt()`, and `Combatant.chooseAbility()`
+* Applying Effects to Combatants using some input function like `Combatant.applyEffect(effect)` or something like that.
 
 Future Plans
 ============
