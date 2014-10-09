@@ -44,5 +44,14 @@ Effect.prototype = {
 		return this.duration - this.already;
 	},
 	
+	tick: function() {
+		this.already += 1;
+	},
 	
+	isAlive: function() {
+		if (this.getRemainingTicks <= 0) {
+			return false;
+		}
+		return true;
+	},
 }

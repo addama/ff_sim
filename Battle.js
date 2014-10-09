@@ -126,7 +126,7 @@ Battle.prototype = {
 		switch (effect.type) {
 			case 'damage':
 			case 'heal':
-				this.roster[team][slot].alterHealth(effect.baseDamage, effect.element, effect.type);
+				this.roster[team][slot].alterHealth(effect.title, effect.baseDamage, effect.element, effect.type);
 				break;
 			case 'dot':
 			case 'hot':
@@ -147,8 +147,9 @@ Battle.prototype = {
 			var state = this.generateState();
 			var actor = this.getCurrentActor();
 			var action = actor.chooseAbility(state);
-			actor.tickConditions();
+			actor.tickEffects();
 			if (actor.isAlive === false) {
+				this.memory.turns += 1;
 				this.nextActor();
 				continue;
 			}

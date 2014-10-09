@@ -43,8 +43,8 @@ function Combatant(team, slot, archetype, element, race, gender) {
 		strength: 0, dexterity: 0, intellect: 0, wisdom: 0, vitality: 0, speed: 0
 	}
 	this.stats.health = {
-		now: this.zipperStat('vitality') * 10,
-		max: this.zipperStat('vitality') * 10
+		now: this.zipperStat('vitality') * 5,
+		max: this.zipperStat('vitality') * 5
 	}
 	
 	// Get basic abilities
@@ -132,23 +132,23 @@ Combatant.prototype = {
 
 	},
 	
-	alterHealth: function(amount, element, type) {
+	alterHealth: function(name, amount, element, type) {
 		// Applies damage/healing, and returns true if the damage killed it
 		if (type === 'heal' || type === 'hot') {
 			this.stats.health.now += amount;
 			if (this.stats.health.now > this.stats.health.max) this.stats.health.now = this.stats.health.max;
-			console.log(this.displayName(false) + ' was healed for ' + amount + ' (' + this.stats.health.now + '/' + this.stats.health.max + ')');
+			console.log(this.displayName(false) + ' was healed by ' + name + ' for ' + amount + ' (' + this.stats.health.now + '/' + this.stats.health.max + ')');
 			return false;
 		} else if (type === 'damage' || type === 'dot') {
 			if (amount >= this.stats.health.now) {
 				this.stats.health.now = 0;
 				this.isAlive = false;
 				var remaining = amount - this.stats.health.now;
-				console.log(this.displayName(false) + ' took ' + amount + ' ' + element + ' damage and died (' + remaining + ' overkill).');
+				console.log(this.displayName(false) + ' took ' + amount + ' ' + element + ' damage from ' + name + ' and died (' + remaining + ' overkill).');
 				return true;
 			} else {
 				this.stats.health.now -= amount;
-				console.log(this.displayName(false) + ' took ' + amount + ' ' + element + ' damage (' + this.stats.health.now + '/' + this.stats.health.max + ')');
+				console.log(this.displayName(false) + ' took ' + amount + ' ' + element + ' damage from ' + name + '(' + this.stats.health.now + '/' + this.stats.health.max + ')');
 				return false;
 			}
 		}
@@ -186,10 +186,14 @@ Combatant.prototype = {
 		}		
 	},
 	
-	tickConditions: function() {
-		for (var condition in this.conditions) {
-			if (this.conditions[condition].type === 'dot' || this.conditions[condition].type === 'hot') {
-				this.alterHealth(this.conditions[condition].baseDamage, this.conditions[condition].element, this.conditions[condition].type);
+	tickEffects: function() {
+		for (var effect in this.effects) {
+			if (this.effects[effect].type === 'dot' || this.effects[effect].type === 'hot') {
+				this.alterHealth(this.effects[effect].title, this.effects[effect].baseDamage, this.effects[effect].element, this.effects[effect].type);
+			}
+			this.effects[effect].tick();
+			if (!this.effects[effect].isAlive()) {
+				this.effects[effect] = null;
 			}
 		}
 	},
