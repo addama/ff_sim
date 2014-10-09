@@ -49,8 +49,9 @@ Abilities resolve their functions through special objects called Effects. Straig
 Current Work
 ============
 
- * Executing turns based on `Battle.turnOrder`, `Battle.whoseTurnIsIt()`, and `Combatant.chooseAbility()`
- * Applying Effects to Combatants using some overwatch function like `Battle.applyEffect(effect)` or something like that.
+ * Completing the turn execution structure so that all effects, damage, and messages are passed appropriately.
+ * Making sure buffs and debuffs actually modify stats
+ * Adding stat-based damage modifiers
 
 Future Plans
 ============
