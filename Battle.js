@@ -62,6 +62,15 @@ Battle.prototype = {
 	teamsAreAlive: function() {
 		// Check each team to see if at least once of their combatants are alive
 		// Returns false if any teams are completely dead
+		for (var team in this.roster) {
+			var teamDeaths = 0;
+			for (var person in team) {
+				if (person.isAlive === false) teamDeaths += 1;
+			}
+			if (teamDeaths === this.partySize) {
+				return false;
+			}
+		}
 		return true;
 	},
 	
