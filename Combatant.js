@@ -43,15 +43,18 @@ function Combatant(team, slot, archetype, element, race, gender) {
 		strength: 0, dexterity: 0, intellect: 0, wisdom: 0, vitality: 0, speed: 0
 	}
 	this.stats.health = {
-		now: this.stats.vitality * 10,
-		max: this.stats.vitality * 10
+		now: this.zipperStat('vitality') * 10,
+		max: this.zipperStat('vitality') * 10
 	}
 	
 	// Get basic abilities
-	this.abilities = {};
-	this.abilities.race = new Ability(this.race);
-	this.abilities.archetype = new Ability(this.archetype);
-	this.abilities.element = new Ability(this.element);
+	this.abilities = [];
+	this.abilities.push(new Ability(this.race));
+	this.abilities.push(new Ability(this.archetype));
+	this.abilities.push(new Ability(this.element));
+	
+	// Make the container for Effects
+	this.effects = {};
 	
 	// Assign abilities to behavior hooks
 	this.behavior = {};
@@ -129,13 +132,77 @@ Combatant.prototype = {
 
 	},
 	
+	alterHealth: function(amount, element, type) {
+		// Applies damage/healing, and returns true if the damage killed it
+		if (type === 'heal' || type === 'hot') {
+			this.stats.health.now += amount;
+			if (this.stats.health.now > this.stats.health.max) this.stats.health.now = this.stats.health.max;
+			console.log(this.displayName(false) + ' was healed for ' + amount + ' (' + this.stats.health.now + '/' + this.stats.health.max + ')');
+			return false;
+		} else if (type === 'damage' || type === 'dot') {
+			if (amount >= this.stats.health.now) {
+				this.stats.health.now = 0;
+				this.isAlive = false;
+				var remaining = amount - this.stats.health.now;
+				console.log(this.displayName(false) + ' took ' + amount + ' ' + element + ' damage and died (' + remaining + ' overkill).');
+				return true;
+			} else {
+				this.stats.health.now -= amount;
+				console.log(this.displayName(false) + ' took ' + amount + ' ' + element + ' damage (' + this.stats.health.now + '/' + this.stats.health.max + ')');
+				return false;
+			}
+		}
+	},
+	
+	takeEffect: function(effect) {
+		// Adds the Effect to the Combatant.effects
+		if (this.effects[effect.type]) {
+			console.log(this.displayName() + ' lost the ' + this.effects[effect.type].title + ' effect');
+		}
+		this.effects[effect.type] = effect;
+		console.log(this.displayName(false) + ' gained the ' + this.effects[effect.type].title + ' effect');
+	},
+	
 	chooseAbility: function(state) {
-		// Chooses an ability based on the state object given
-		var rand = Math.floor(Math.random() * config.lists.abilityTypes.length);
-		return this.abilities[config.lists.abilityTypes[rand]].title;
+		// Chooses an ability index based on the state object given
+		// There is currently no AI here, just random numbers. Behavior will be added later
+		var rand = Math.floor(Math.random() * this.abilities.length);
+		//var choice = this.abilities[rand].title;
+		switch (this.abilities[rand].target) {
+			case 'self':
+			case 'selfParty':
+				return {'target': {'team': this.team, 'slot': this.slot}, 'ability': rand};
+				break;
+				
+			case 'target':
+			case 'targetParty':
+			default:
+				for (var person in state) {
+					if (state[person].team !== this.team) {
+						return {'target': {'team': state[person].team, 'slot': state[person].slot}, 'ability': rand};
+					}
+				}
+				break;
+		}		
 	},
 	
 	tickConditions: function() {
-		
+		for (var condition in this.conditions) {
+			if (this.conditions[condition].type === 'dot' || this.conditions[condition].type === 'hot') {
+				this.alterHealth(this.conditions[condition].baseDamage, this.conditions[condition].element, this.conditions[condition].type);
+			}
+		}
 	},
 }
+
+
+
+
+
+
+
+
+
+
+
+

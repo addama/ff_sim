@@ -22,6 +22,10 @@ function Battle(partySize) {
 	}
 	app.makeTurnOrder();
 	app.currentCombatant = 0;
+	app.memory = {
+		battles: 1,
+		turns: 1,
+	}
 };
 
 Battle.prototype = {
@@ -68,6 +72,7 @@ Battle.prototype = {
 				if (person.isAlive === false) teamDeaths += 1;
 			}
 			if (teamDeaths === this.partySize) {
+				console.log('Team ' + team + ' is completely wiped out.');
 				return false;
 			}
 		}
@@ -85,10 +90,22 @@ Battle.prototype = {
 	},
 	
 	nextActor: function() {
-		if (this.currentCombatant === this.turnOrder.length - 1) {
+		// Increments the Battle.currentCombatant pointer, skipping any dead Combatants
+		if (this.currentCombatant >= this.turnOrder.length - 1) {
 			this.currentCombatant = 0;
 		} else {
 			this.currentCombatant += 1;
+		}
+		var actor = this.getCurrentActor();
+		if (actor.isAlive === false) {
+			console.log('Actor not alive, skipping');
+			while (this.currentCombatant.isAlive === false) {
+				if (this.currentCombatant >= this.turnOrder.length - 1) {
+					this.currentCombatant = 0;
+				} else {
+					this.currentCombatant += 1;
+				}
+			}
 		}
 	},
 	
@@ -104,21 +121,47 @@ Battle.prototype = {
 		return state;
 	},
 	
-	applyEffect: function(effect) {
+	applyEffect: function(effect, team, slot) {
 		// Overwatch function that takes apart Effects and instructs Combatants in how to take them
-		
+		switch (effect.type) {
+			case 'damage':
+			case 'heal':
+				this.roster[team][slot].alterHealth(effect.baseDamage, effect.element, effect.type);
+				break;
+			case 'dot':
+			case 'hot':
+			case 'buff':
+			case 'debuff':
+				this.roster[team][slot].takeEffect(effect);
+				break;
+			default:
+				break;
+		}
 	},
 	
 	startBattle: function() {
-		//while (this.teamsAreAlive()) {
+		console.group('BATTLE ' + this.memory.battles + ' BEGINS');
+		
+		while (this.teamsAreAlive()) {
+			// Execute a single turn
 			var state = this.generateState();
-			console.log(state);
 			var actor = this.getCurrentActor();
 			var action = actor.chooseAbility(state);
-			console.log(action);
-			this.applyEffect(action);
+			actor.tickConditions();
+			if (actor.isAlive === false) {
+				this.nextActor();
+				continue;
+			}
+			console.log(actor.displayName(false) + ' used ' + actor.abilities[action.ability].title + ' on ' + actor.abilities[action.ability].target);
+			var effect = actor.abilities[action.ability].makeEffect();
+			this.applyEffect(effect, action.target.team, action.target.slot);
 			this.nextActor();
-		//}
+			this.memory.turns += 1;
+		}
+		
+		this.memory.battles += 1;
+		console.groupEnd();
+		console.log('BATTLE END');
 	},
 
 }
