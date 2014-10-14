@@ -137,18 +137,18 @@ Combatant.prototype = {
 		if (type === 'heal' || type === 'hot') {
 			this.stats.health.now += amount;
 			if (this.stats.health.now > this.stats.health.max) this.stats.health.now = this.stats.health.max;
-			console.log(this.displayName(false) + ' was healed by ' + name + ' for ' + amount + ' (' + this.stats.health.now + '/' + this.stats.health.max + ')');
+			log.out(this.displayName(false) + ' was healed by ' + name + ' for ' + amount + ' (' + this.stats.health.now + '/' + this.stats.health.max + ')');
 			return false;
 		} else if (type === 'damage' || type === 'dot') {
 			if (amount >= this.stats.health.now) {
 				this.stats.health.now = 0;
 				this.isAlive = false;
 				var remaining = amount - this.stats.health.now;
-				console.log(this.displayName(false) + ' took ' + amount + ' ' + element + ' damage from ' + name + ' and died (' + remaining + ' overkill).');
+				log.out(this.displayName(false) + ' took ' + amount + ' ' + element + ' damage from ' + name + ' and died (' + remaining + ' overkill).');
 				return true;
 			} else {
 				this.stats.health.now -= amount;
-				console.log(this.displayName(false) + ' took ' + amount + ' ' + element + ' damage from ' + name + '(' + this.stats.health.now + '/' + this.stats.health.max + ')');
+				log.out(this.displayName(false) + ' took ' + amount + ' ' + element + ' damage from ' + name + '(' + this.stats.health.now + '/' + this.stats.health.max + ')');
 				return false;
 			}
 		}
@@ -157,10 +157,10 @@ Combatant.prototype = {
 	takeEffect: function(effect) {
 		// Adds the Effect to the Combatant.effects
 		if (this.effects[effect.type]) {
-			console.log(this.displayName() + ' lost the ' + this.effects[effect.type].title + ' effect');
+			log.out(this.displayName() + ' lost the ' + this.effects[effect.type].title + ' effect');
 		}
 		this.effects[effect.type] = effect;
-		console.log(this.displayName(false) + ' gained the ' + this.effects[effect.type].title + ' effect');
+		log.out(this.displayName(false) + ' gained the ' + this.effects[effect.type].title + ' effect');
 	},
 	
 	chooseAbility: function(state) {

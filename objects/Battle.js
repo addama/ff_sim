@@ -32,6 +32,7 @@ Battle.prototype = {
 	constructor: Battle,
 	roster: {},
 	currentCombatant: 0,
+	gameLoop: '',
 	
 	createCombatant: function(team, slot, type, element, race, gender) {
 		if (!type) type = config.getRandomType();
@@ -72,7 +73,7 @@ Battle.prototype = {
 				if (person.isAlive === false) teamDeaths += 1;
 			}
 			if (teamDeaths === this.partySize) {
-				console.log('Team ' + team + ' is completely wiped out.');
+				log.out('Team ' + team + ' is completely wiped out.');
 				return false;
 			}
 		}
@@ -98,7 +99,7 @@ Battle.prototype = {
 		}
 		var actor = this.getCurrentActor();
 		if (actor.isAlive === false) {
-			console.log('Actor not alive, skipping');
+			log.out('Actor not alive, skipping');
 			while (this.currentCombatant.isAlive === false) {
 				if (this.currentCombatant >= this.turnOrder.length - 1) {
 					this.currentCombatant = 0;
@@ -142,7 +143,15 @@ Battle.prototype = {
 	startBattle: function() {
 		console.group('BATTLE ' + this.memory.battles + ' BEGINS');
 		
-		while (this.teamsAreAlive()) {
+		this.gameLoop = setInterval(this.executeTurn(), 1000);
+		
+		this.memory.battles += 1;
+		console.groupEnd();
+		console.log('BATTLE END');
+	},
+	
+	executeTurn: function() {
+		if (this.teamsAreAlive()) {
 			// Execute a single turn
 			var state = this.generateState();
 			var actor = this.getCurrentActor();
@@ -153,18 +162,16 @@ Battle.prototype = {
 				this.nextActor();
 				continue;
 			}
-			console.log(actor.displayName(false) + ' used ' + actor.abilities[action.ability].title + ' on ' + actor.abilities[action.ability].target);
+			log.out(actor.displayName(false) + ' used ' + actor.abilities[action.ability].title + ' on ' + actor.abilities[action.ability].target);
 			var effect = actor.abilities[action.ability].makeEffect();
 			this.applyEffect(effect, action.target.team, action.target.slot);
 			this.nextActor();
 			this.memory.turns += 1;
 			// Wait 1 second so it's not a blur of actions
-			setTimeout(function(){continue}, 1000);
+			//setTimeout(function(){}, 1000);
+		} else {
+			clearInterval(this.gameLoop);
 		}
-		
-		this.memory.battles += 1;
-		console.groupEnd();
-		console.log('BATTLE END');
 	},
 
 }

@@ -4,7 +4,7 @@ function Configuration() {
 
 Configuration.prototype = {
 	constructor: Configuration,
-	configLocation: './config.json',
+	configLocation: './config.json',	// This location is relative to index.htm
 	isLoaded: false,
 	
 	loadConfiguration: function() {
