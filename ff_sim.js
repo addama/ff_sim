@@ -1,3 +1,4 @@
+var log = new Announcer();
 var config = new Configuration();
 var battle;
 setTimeout(function() {

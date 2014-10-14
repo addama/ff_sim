@@ -158,6 +158,8 @@ Battle.prototype = {
 			this.applyEffect(effect, action.target.team, action.target.slot);
 			this.nextActor();
 			this.memory.turns += 1;
+			// Wait 1 second so it's not a blur of actions
+			setTimeout(function(){continue}, 1000);
 		}
 		
 		this.memory.battles += 1;
