@@ -47,7 +47,14 @@ Configuration.prototype = {
 		var rand = Math.floor(Math.random() * this.lists.races.length);
 		return this.lists.races[rand];
 	},
+	
+	getRandomName: function(race, gender) {
+		var rand = Math.floor(Math.random() * this.lists.names[race][gender].length);
+		return this.lists.names[race][gender][rand];
+	},
 
+	
+	
 	// Validation functions
 	validateArchetype: function(archetype) {return (this.lists.archetypes.indexOf(archetype) !== -1) ? true : false},
 	validateElement: function(element) {	return (this.lists.elements.indexOf(element) !== -1) ? true : false	},
@@ -81,5 +88,31 @@ Configuration.prototype = {
 		return show.toUpperCase();
 	},
 	
+	makeNewName: function(race, gender) {
+		if (config.lists.nameParts[race]) {
+			switch(config.variables.names.minParts)
+		} else if (config.lists.names[race][gender]) {
+			return this.getRandomName(race, gender);
+		}
+	},
 	
+	generateName: function(race, gender) {
+		// Generate names using 2 methods: picking a random name from a list, or building a name from race-specific parts
+		// Built names will attempt to build using a parts list from config.lists, and barring that, will default to a static name list
+		// Both built and randomized names will default to a no-name if their respective arrays aren't found
+		switch(race) {
+			// Random names
+			case 'human':
+				return this.getRandomName(race, gender);
+				break;
+				
+			// Built names
+			case 'dwarf':
+				return this.makeNewName(race, gender);
+				break;
+			default:
+				return 'anonymous';
+				break;
+		}
+	},
 }

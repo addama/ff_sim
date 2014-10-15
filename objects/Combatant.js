@@ -30,10 +30,24 @@ function Combatant(team, slot, archetype, element, race, gender) {
 		this.element = 'physical';
 	}
 	
+	if (this.race === 'merfolk' && (this.element !== 'ice' && this.element !== 'psychic')) {
+		// Merfolk are only ice/psychic element
+		this.element = 'ice';
+	}
+	
+	if (this.race === 'demon' && (this.element !== 'fire' && this.element !== 'evil' && this.element !== 'death' && this.element !== 'physical')) {
+		// Demons are only fire/evil/death/physical element
+		this.element = 'fire';
+	}
+	
 	// Assign titles
 	this.titles = {};
 	this.titles.race = config.titles.races[this.race][this.element] || this.race;
 	this.titles.archetype = config.titles.archetypes[this.archetype][this.element] || this.archetype;
+	// Small title correction for female physical demons
+	if (this.race === 'demon' && this.element === 'physical' && this.gender === 'female') {
+		this.titles.race = 'succubus';
+	}
 	
 	// Assign stats
 	this.stats = {};

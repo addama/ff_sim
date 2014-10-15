@@ -4,11 +4,11 @@
 		"elements": 	[ "fire", "ice", "earth", "air", "holy", "evil", "life", "death", "physical", "psychic" ],
 		"targets": 		[ "self", "target", "targetParty", "selfParty" ],
 		"genders": 		[ "male", "female" ],
-		"races": 		[ "human", "dwarf", "elf", "orc", "troll", "halfling", "giant" ],
+		"races": 		[ "human", "dwarf", "elf", "orc", "troll", "halfling", "giant", "merfolk", "demon" ],
 		"effects": 		[ "heal", "damage", "dot", "hot", "buff", "debuff" ],
 		"stats": 		[ "strength", "dexterity", "intellect", "wisdom", "vitality", "speed" ],
 		"abilityTypes":	[ "race", "element", "archetype" ],
-		"abilities": 	[ "attack", "fire", "ice", "earth", "air", "holy", "evil", "life", "death", "physical", "psychic", "human", "dwarf", "elf", "halfling", "troll", "giant", "orc", "tank", "healer", "rangedInt", "rangedDex", "meleeDex", "meleeStr"	]
+		"abilities": 	[ "attack", "fire", "ice", "earth", "air", "holy", "evil", "life", "death", "physical", "psychic", "human", "dwarf", "elf", "halfling", "troll", "giant", "orc", "tank", "healer", "rangedInt", "rangedDex", "meleeDex", "meleeStr"	],
 	},
 	
 	"buffTargets": {
@@ -106,6 +106,7 @@
 			}
 		},
 		
+		
 		"human": {
 			"element": "physical",
 			"baseDamage": 1,
@@ -162,6 +163,24 @@
 				"target": "targetParty"
 			}
 		},
+		"merfolk": {
+			"element": "ice",
+			"baseDamage": 1,
+			"effect": {
+				"type": "damage",
+				"target": "targetParty"
+			}
+		},
+		"demon": {
+			"element": "fire",
+			"baseDamage": 1,
+			"effect": {
+				"type": "dot",
+				"target": "targetParty"
+			}
+		},
+		
+		
 		
 		"tank": {
 			"element": "physical",
@@ -225,7 +244,9 @@
 		"halfling":		"air",
 		"orc":			"physical",
 		"troll":		"physical",
-		"giant":		"physical"
+		"giant":		"physical",
+		"merfolk":		"ice",
+		"demon":		"fire"
 	},
 	
 	"stats": {
@@ -279,6 +300,22 @@
 				"speed": 		1
 			},
 			"giant": {
+				"strength": 	1,
+				"dexterity": 	1,
+				"intellect": 	1,
+				"wisdom": 		1,
+				"vitality": 	1,
+				"speed": 		1
+			},
+			"merfolk": {
+				"strength": 	1,
+				"dexterity": 	1,
+				"intellect": 	1,
+				"wisdom": 		1,
+				"vitality": 	1,
+				"speed": 		1
+			},
+			"demon": {
 				"strength": 	1,
 				"dexterity": 	1,
 				"intellect": 	1,
@@ -466,12 +503,12 @@
 			},
 			"troll": {
 				"fire": "",
-				"ice": "ice troll",
-				"earth": "sand troll",
+				"ice": "",
+				"earth": "",
 				"air": "",
 				"holy": "",
 				"evil": "",
-				"life": "forest troll",
+				"life": "",
 				"death": "",
 				"physical": "",
 				"psychic": ""
@@ -499,6 +536,30 @@
 				"death": "",
 				"physical": "golem",
 				"psychic": ""
+			},
+			"merfolk": {
+				"fire": "",
+				"ice": "",
+				"earth": "",
+				"air": "",
+				"holy": "",
+				"evil": "",
+				"life": "",
+				"death": "",
+				"physical": "",
+				"psychic": "siren"
+			},
+			"demon": {
+				"fire": "imp",
+				"ice": "",
+				"earth": "",
+				"air": "",
+				"holy": "",
+				"evil": "devil",
+				"life": "",
+				"death": "demon",
+				"physical": "incubus",
+				"psychic": ""
 			}
 		},
 		
@@ -519,13 +580,15 @@
 			"rangedDex": "snipe", 
 			"meleeStr": "cleave", 
 			"meleeDex": "takedown",
-			"human": 	"perseverence",
+			"human": 	"perseverance",
 			"dwarf": 	"stoneskin",
 			"elf": 		"fade",
 			"orc": 		"enrage",
 			"troll": 	"troll blood",
 			"halfling": "burst of energy",
-			"giant": 	"sweep"
+			"giant": 	"sweep",
+			"merfolk": 	"wave",
+			"demon": 	"inferno"
 		},
 		
 		"effects": {
@@ -539,7 +602,7 @@
 				"fire": 	"scorch",
 				"ice": 		"freeze",
 				"physical":	"slam",
-				"psychic": 	"aneurism"
+				"psychic": 	"aneurysm"
 			},
 			"heal": {
 				"air": 		"energy surge",
@@ -622,8 +685,13 @@
 			"buff":			3,
 			"debuff":		3
 		},
+		"names": {
+			"minParts": 2,
+			"maxParts": 4
+		},
 		"defaults": {
-			"baseDamage": 		10,
+			"name":			"anonymous",
+			"baseDamage": 	10,
 			"element": 		"physical",
 			"archetype": 	"meleeStr",
 			"gender": 		"male",
