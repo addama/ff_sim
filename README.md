@@ -34,7 +34,7 @@ Combatants
  
 A combatant is created with these four qualities, each randomized. Races and Archetypes each have a layer of stats which can be zippered together (along with miscellaneous mods) into a singular stat. With the exception of Gender, each quality has a corresponding Ability. 
 
-For example, let's create a new Combatant: `var gary = new Combatant('left', 0, 'healer', 'fire', 'troll', 'male')` The Combatant constructor recognizes that the combination of 'fire' element and 'rangedInt' archetype should be called a 'Pyromancer'. It also sees that Gary is both 'fire' element and 'troll' race, which it knows is called a 'fire troll'. This is displayed to the user as "Gary, Fire Troll Pyromancer".
+For example, let's create a new Combatant: `var gary = new Combatant('left', 0, 'rangedInt', 'fire', 'troll', 'male')` The Combatant constructor recognizes that the combination of 'fire' element and 'rangedInt' archetype should be called a 'Pyromancer'. It also sees that Gary is both 'fire' element and 'troll' race, which it knows is called a 'fire troll'. This is displayed to the user as "Gary, Fire Troll Pyromancer".
 
 Abilities
 ---------
@@ -48,9 +48,10 @@ Abilities resolve their functions through special objects called Effects. Straig
 
 Current Work
 ============
-
- * Finish Announcer.js so it's fully integrated into all other objects.
- * Completing the turn execution structure so that all effects, damage, and messages are passed appropriately.
+ * Polish the message log so it's readable
+ * Adapt Announcer.js to be able to keep logs for individual Combatants as well as the Battle log
+ * Make some kind of display function _somewhere_ to begin laying the Combatants and their info out visually
+ * Clean up config.json so the Ability -> Effect relationship is more clear
  * Making sure buffs and debuffs actually modify stats
  * Adding stat-based damage modifiers
 
