@@ -4,7 +4,7 @@ function Announcer() {
 	this.wrapper.element = config.variables.logging.wrapper.element;
 	this.wrapper.class = config.variables.logging.wrapper.class;
 	
-	console.log('Announcer writing output to ' + this.target);
+	console.log('Announcer writing output to ' + this.target + ' with logLimit ' + this.logLimit);
 	
 }
 
@@ -22,13 +22,21 @@ Announcer.prototype = {
 	
 	wrap: function(message) {
 		// Wraps messages in easily identifiable elements
-		return '<'+this.wrapper.element+' class="'+this.wrapper.class+'">'+message+'</'+this.wrapper.element+'>\n';
+		return '<'+this.wrapper.element+' class="'+this.wrapper.class+'">'+message+'</'+this.wrapper.element+'><br />\n';
+	},
+	
+	outputMemory: function() {
+		var result = '';
+		for (var entry in this._memory) {
+			result += this._memory[entry];
+		}
+		return result;
 	},
 	
 	out: function(message, mode) {
-		this._memory.push(message);
+		this._memory.push(this.wrap(message));
 		if (this._memory.length >= this.logLimit) {
-			this._memory.pop();
+			var junk = this._memory.shift();
 		}
 	
 		// Will output via the specified mode
@@ -38,7 +46,7 @@ Announcer.prototype = {
 				break;
 			case 'target':
 			default:
-				$(this.target).innerHTML = this.wrap(message);
+				$(this.target).innerHTML = this.outputMemory();	
 				break;
 		}
 	},

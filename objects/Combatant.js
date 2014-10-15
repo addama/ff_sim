@@ -157,18 +157,20 @@ Combatant.prototype = {
 	takeEffect: function(effect) {
 		// Adds the Effect to the Combatant.effects
 		if (this.effects[effect.type]) {
-			log.out(this.displayName() + ' lost the ' + this.effects[effect.type].title + ' effect');
+			log.out(config.titleCase(this.effects[effect.type].title) + ' effect was refreshed on ' + this.displayName());
+			this.effects[effect.type] = effect;
+		} else {
+			this.effects[effect.type] = effect;
+			log.out(this.displayName(false) + ' gained the ' + config.titleCase(this.effects[effect.type].title) + ' effect');
 		}
-		this.effects[effect.type] = effect;
-		log.out(this.displayName(false) + ' gained the ' + this.effects[effect.type].title + ' effect');
 	},
 	
 	chooseAbility: function(state) {
 		// Chooses an ability index based on the state object given
 		// There is currently no AI here, just random numbers. Behavior will be added later
 		var rand = Math.floor(Math.random() * this.abilities.length);
-		//var choice = this.abilities[rand].title;
-		switch (this.abilities[rand].target) {
+		var choice = this.abilities[rand];
+		switch (choice.target) {
 			case 'self':
 			case 'selfParty':
 				return {'target': {'team': this.team, 'slot': this.slot}, 'ability': rand};
@@ -187,13 +189,17 @@ Combatant.prototype = {
 	},
 	
 	tickEffects: function() {
-		for (var effect in this.effects) {
-			if (this.effects[effect].type === 'dot' || this.effects[effect].type === 'hot') {
-				this.alterHealth(this.effects[effect].title, this.effects[effect].baseDamage, this.effects[effect].element, this.effects[effect].type);
-			}
-			this.effects[effect].tick();
-			if (!this.effects[effect].isAlive()) {
-				this.effects[effect] = null;
+		if (this.isAlive) {
+			for (var effect in this.effects) {
+				if (this.effects[effect].type === 'dot' || this.effects[effect].type === 'hot') {
+					this.alterHealth(this.effects[effect].title, this.effects[effect].baseDamage, this.effects[effect].element, this.effects[effect].type);
+				}
+				this.effects[effect].tick();
+				
+				if (!this.effects[effect].isAlive) {
+					log.out(this.effects[effect].title + ' faded from ' + this.displayName());
+					this.effects[effect] = null;
+				}
 			}
 		}
 	},

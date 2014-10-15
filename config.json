@@ -605,10 +605,11 @@
 	},
 	
 	"variables": {
-		"partySize": 		2,
+		"partySize": 		3,
 		"teams":			2,
+		"turnLength":		2000,
 		"logging": {
-			"logLimit":		10,
+			"logLimit":		35,
 			"logTarget":	"#battleLog",
 			"wrapper": {
 				"element":	"span",

@@ -5,6 +5,14 @@ setTimeout(function() {
 	log = new Announcer();
 	battle = new Battle();
 	
-	//battle.startBattle();
-	
 }, 100);
+
+$('#startBattle').addEventListener('click', function(event) {
+	if (battle.inProgress) {
+		battle.endBattle();
+		$('#startBattle').innerHTML = 'Start Battle';
+	} else {
+		battle.startBattle();
+		$('#startBattle').innerHTML = 'End Battle';
+	}
+});

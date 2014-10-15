@@ -22,6 +22,7 @@ Ability.prototype = {
 	},
 	
 	displayStats: function() {
+		console.log(this.payLoad.type);
 		if (this.payLoad.type === 'dot') {
 			result = 'Causes ' + this.payLoad.getGranularAmount() + ' ' + this.element + ' damage to ' + this.target + ' every turn for ' + this.payLoad.duration + ' turns'; 
 		}

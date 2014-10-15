@@ -49,14 +49,14 @@ Configuration.prototype = {
 	},
 
 	// Validation functions
-	validateArchetype: function(archetype) {return (this.lists.archetypes.indexOf(archetype)) ? true : false},
-	validateElement: function(element) {	return (this.lists.elements.indexOf(element)) ? true : false	},
-	validateTarget: function(target) {		return (this.lists.targets.indexOf(target)) ? true : false 		},
-	validateGender: function(gender) {		return (this.lists.genders.indexOf(gender)) ? true : false		},
-	validateRace: function(race) {			return (this.lists.races.indexOf(race)) ? true : false			},
-	validateStat: function(stat) {			return (this.lists.stats.indexOf(stat)) ? true : false			},
-	validateEffect: function(effect) {		return (this.lists.effects.indexOf(effect)) ? true : false		},
-	validateAbility: function(ability) {	return (this.lists.abilities.indexOf(ability)) ? true : false	},
+	validateArchetype: function(archetype) {return (this.lists.archetypes.indexOf(archetype) !== -1) ? true : false},
+	validateElement: function(element) {	return (this.lists.elements.indexOf(element) !== -1) ? true : false	},
+	validateTarget: function(target) {		return (this.lists.targets.indexOf(target) !== -1) ? true : false 		},
+	validateGender: function(gender) {		return (this.lists.genders.indexOf(gender) !== -1) ? true : false		},
+	validateRace: function(race) {			return (this.lists.races.indexOf(race) !== -1) ? true : false			},
+	validateStat: function(stat) {			return (this.lists.stats.indexOf(stat) !== -1) ? true : false			},
+	validateEffect: function(effect) {		return (this.lists.effects.indexOf(effect) !== -1) ? true : false		},
+	validateAbility: function(ability) {	return (this.lists.abilities.indexOf(ability) !== -1) ? true : false	},
 	
 	validateConfiguration: function() {
 		// Checks the configuration to make sure that the items mentioned in the lists object are expanded upon in the other objects

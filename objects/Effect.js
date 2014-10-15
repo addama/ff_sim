@@ -28,7 +28,6 @@ function Effect(type, element, target, baseDamage) {
 		default:
 			break;
 	}
-	
 }
 
 Effect.prototype = {

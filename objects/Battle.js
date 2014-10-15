@@ -5,6 +5,8 @@ function Battle(partySize) {
 	app.partySize = config.variables.partySize;
 	if (partySize && partySize > 1) app.partySize = partySize;
 	
+	app.turnLength = config.variables.turnLength;
+	
 	// Define the roster
 	app.roster = {};
 	for (var i = 0; i < config.variables.teams; i++) {
@@ -33,6 +35,7 @@ Battle.prototype = {
 	roster: {},
 	currentCombatant: 0,
 	gameLoop: '',
+	inProgress: false,
 	
 	createCombatant: function(team, slot, type, element, race, gender) {
 		if (!type) type = config.getRandomType();
@@ -56,7 +59,9 @@ Battle.prototype = {
 		this.turnOrder = [];
 		for (var side in this.roster) {
 			for (var person in this.roster[side]) {
-				this.turnOrder.push({'slot': person, 'team': side, 'speed': this.roster[side][person].zipperStat('speed')});
+				if (this.roster[side][person].isAlive === true) {
+					this.turnOrder.push({'slot': person, 'team': side, 'speed': this.roster[side][person].zipperStat('speed')});
+				}
 			}
 		}
 		
@@ -69,8 +74,8 @@ Battle.prototype = {
 		// Returns false if any teams are completely dead
 		for (var team in this.roster) {
 			var teamDeaths = 0;
-			for (var person in team) {
-				if (person.isAlive === false) teamDeaths += 1;
+			for (var person in this.roster[team]) {
+				if (this.roster[team][person].isAlive === false) teamDeaths += 1;
 			}
 			if (teamDeaths === this.partySize) {
 				log.out('Team ' + team + ' is completely wiped out.');
@@ -84,7 +89,7 @@ Battle.prototype = {
 		if (this.currentCombatant === null) {
 			this.currentCombatant = 0;
 		}
-		if (this.turnOrder) this.makeTurnOrder();
+		if (!this.turnOrder) this.makeTurnOrder();
 		var slot = this.turnOrder[this.currentCombatant].slot;
 		var side = this.turnOrder[this.currentCombatant].team;
 		return this.roster[side][slot];	
@@ -116,7 +121,7 @@ Battle.prototype = {
 		for (var team in this.roster) {
 			for (var person in this.roster[team]) {
 				var him = this.roster[team][person];
-				state.push({team: him.team, slot: him.slot, health: him.stats.health.now});
+				if (him.isAlive) state.push({team: him.team, slot: him.slot, health: him.stats.health.now});
 			}
 		}
 		return state;
@@ -124,16 +129,17 @@ Battle.prototype = {
 	
 	applyEffect: function(effect, team, slot) {
 		// Overwatch function that takes apart Effects and instructs Combatants in how to take them
+		var victim = this.roster[team][slot];
 		switch (effect.type) {
 			case 'damage':
 			case 'heal':
-				this.roster[team][slot].alterHealth(effect.title, effect.baseDamage, effect.element, effect.type);
+				victim.alterHealth(effect.title, effect.baseDamage, effect.element, effect.type);
 				break;
 			case 'dot':
 			case 'hot':
 			case 'buff':
 			case 'debuff':
-				this.roster[team][slot].takeEffect(effect);
+				victim.takeEffect(effect);
 				break;
 			default:
 				break;
@@ -141,37 +147,49 @@ Battle.prototype = {
 	},
 	
 	startBattle: function() {
-		console.group('BATTLE ' + this.memory.battles + ' BEGINS');
-		
-		this.gameLoop = setInterval(this.executeTurn(), 1000);
-		
-		this.memory.battles += 1;
-		console.groupEnd();
-		console.log('BATTLE END');
-	},
-	
-	executeTurn: function() {
-		if (this.teamsAreAlive()) {
-			// Execute a single turn
-			var state = this.generateState();
-			var actor = this.getCurrentActor();
-			var action = actor.chooseAbility(state);
-			actor.tickEffects();
-			if (actor.isAlive === false) {
-				this.memory.turns += 1;
-				this.nextActor();
-				continue;
+		//console.group('BATTLE ' + this.memory.battles + ' BEGINS');
+		var app = this;
+		app.inProgress = true;
+		app.gameLoop = setInterval(function() {
+			if (app.teamsAreAlive()) {
+				// Execute a single turn
+				app.makeTurnOrder();
+				var state = app.generateState();
+				var actor = app.getCurrentActor();
+				var action = actor.chooseAbility(state);
+				actor.tickEffects();
+				if (actor.isAlive === false) {
+					log.out(actor.displayName(false) + ' is dead...');
+				} else {
+					var effect = actor.abilities[action.ability].makeEffect();
+					if (effect.target === 'selfParty') {
+						// Apply effect to the actor's team
+						log.out(actor.displayName(false) + ' used ' + actor.abilities[action.ability].title + ' on their party');
+						for (var victim in app.turnOrder) {
+							if (app.turnOrder[victim].team === actor.team) app.applyEffect(effect, action.target.team, app.turnOrder[victim].slot);
+						}
+					} else if (effect.target === 'targetParty') {
+						// Apply effect to the enemy team
+						log.out(actor.displayName(false) + ' used ' + actor.abilities[action.ability].title + ' on ' + app.roster[action.target.team][action.target.slot].displayName(false) + '\'s party');
+						for (var victim in app.turnOrder) {
+							if (app.turnOrder[victim].team === action.target.team) app.applyEffect(effect, action.target.team, app.turnOrder[victim].slot);
+						}
+					} else {
+						// Apply effect to the chosen actor
+						log.out(actor.displayName(false) + ' used ' + actor.abilities[action.ability].title + ' on ' + app.roster[action.target.team][action.target.slot].displayName(false));
+						app.applyEffect(effect, action.target.team, action.target.slot);
+					}
+				}
+				app.nextActor();
+				app.memory.turns += 1;
+			} else {
+				log.out('BATTLE END');
+				clearInterval(app.gameLoop);
 			}
-			log.out(actor.displayName(false) + ' used ' + actor.abilities[action.ability].title + ' on ' + actor.abilities[action.ability].target);
-			var effect = actor.abilities[action.ability].makeEffect();
-			this.applyEffect(effect, action.target.team, action.target.slot);
-			this.nextActor();
-			this.memory.turns += 1;
-			// Wait 1 second so it's not a blur of actions
-			//setTimeout(function(){}, 1000);
-		} else {
-			clearInterval(this.gameLoop);
-		}
+		}, app.turnLength);
+		app.inProgress = false;
+		app.memory.battles += 1;
+		//console.groupEnd();
 	},
 
 }
