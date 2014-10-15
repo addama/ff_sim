@@ -49,6 +49,7 @@ Abilities resolve their functions through special objects called Effects. Straig
 Current Work
 ============
 
+ * Finish Announcer.js so it's fully integrated into all other objects.
  * Completing the turn execution structure so that all effects, damage, and messages are passed appropriately.
  * Making sure buffs and debuffs actually modify stats
  * Adding stat-based damage modifiers
@@ -61,6 +62,7 @@ Future Plans
  * **Beasts!** I want to fight not just humanoid Combatants, but Beasts. It's fair to say that Bears and Bee Swarms don't follow the same rules, archetypes, or even elements as Combatants, so a whole new object will need to be made for them.
  * **Effects with special functions.** I had attempted to start with this feature, but soon found that it would be better to get it working with simple Effects (heal, damage, dot, hot, buff, debuff). At the very least, each archetype-based Ability will have a special Effect available only to that archetype. My most likely solution will be to add a function to the Combatant prototype that will have an object containing functions for each special rule. So, `Combatant.specialEffect('guard', effect)` would run the 'guard' special function based on the Effect it's given. I would rather that be contained in the Effect, but since the results of the special function will be entirely within the Combatant, it doesn't make sense to have the function run externally.
  * **Useful stats and secondary stats.** Right now, stats are mostly for show, with the exception of Speed, which affects `Battle.turnOrder`. Naturally, Abilities will be tied to some combination of stats to calculate their damage, and the Combatant's defense against that damage. I would also like to have secondary stats like Dodge, Parry, and Crit, because those provide more flavor to the game.
+ * **Combatant "Quality".** Just to spice things up more, I would like to add another layer to Combatants: quality. This will take the form of a descriptor that has a direct modification to their behavior and stats. This can be as simple as "slow", which lowers speed, or "veteran", which increases a bunch of stats. In addition to these, I'd like to add descriptors that have no benefit besides flavor text, e.g. "old", "purple", "bad-smelling", etc. 
  * **Armor and weapons.** I'm on the fence about this one, but I've thought about adding Armor and Weapons to the game as randomized qualities passed to the Combatant constructor. These will probably operate on a secondary stat level, like Attack and Defense, but will have other logical stat changes (plate armor lowers Speed, for example). Armor will not get an Ability assigned to it, but Weapon probably will.
  * **Sprites!** Given that Combatants are composed of layers of distinct qualities, a set of layered, transparent sprite images seems appropriate. To go along with these, backgrounds, Ability effects (explosions, etc), and status icons. 
 
