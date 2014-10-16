@@ -1,0 +1,101 @@
+{
+	"human": {
+		"full": {
+			"male": 	[ "nathan", "steve", "john", "michael", "james", "jim", "adam", "william", "robert", "jordan", "ian", "gregory", "kyle", "grant", "boris", "fred", "bob", "gary", "victor", "vincent" ],
+			"female": 	[ "molly", "jennifer", "vivian", "julie", "gertrude", "gretchen", "hannah", "sarah", "jacqueline", "gwendolyn", "micah", "rachel", "courtney", "angelina", "erin", "brittany", "brandy" ],
+		},
+		"parts": {
+			"start":	[ "hay", "brad", "rem", "rob", "burt" ],
+			"middle":	[ "ing" ],
+			"end":		[ "ton", "son", "ford", "shire", "lin", "der", "don", "ham", "nel" ],
+		}
+	},
+	"dwarf": {
+		"full": {
+			"male": 	[  ],
+			"female": 	[  ],
+		},
+		"parts": {
+			"start":	[  ],
+			"middle":	[  ],
+			"end":		[  ],
+		}
+	},
+	"elf": {
+		"full": {
+			"male": 	[  ],
+			"female": 	[  ],
+		},
+		"parts": {
+			"start":	[  ],
+			"middle":	[  ],
+			"end":		[  ],
+		}
+	},
+	"orc": {
+		"full": {
+			"male": 	[  ],
+			"female": 	[  ],
+		},
+		"parts": {
+			"start":	[  ],
+			"middle":	[  ],
+			"end":		[  ],
+		}
+	},
+	"halfling": {
+		"full": {
+			"male": 	[  ],
+			"female": 	[  ],
+		},
+		"parts": {
+			"start":	[  ],
+			"middle":	[  ],
+			"end":		[  ],
+		}
+	},
+	"troll": {
+		"full": {
+			"male": 	[  ],
+			"female": 	[  ],
+		},
+		"parts": {
+			"start":	[  ],
+			"middle":	[  ],
+			"end":		[  ],
+		}
+	},
+	"giant": {
+		"full": {
+			"male": 	[  ],
+			"female": 	[  ],
+		},
+		"parts": {
+			"start":	[  ],
+			"middle":	[  ],
+			"end":		[  ],
+		}
+	},
+	"merfolk": {
+		"full": {
+			"male": 	[  ],
+			"female": 	[  ],
+		},
+		"parts": {
+			"start":	[  ],
+			"middle":	[  ],
+			"end":		[  ],
+		}
+	},
+	"demon": {
+		"full": {
+			"male": 	[  ],
+			"female": 	[  ],
+		},
+		"parts": {
+			"start":	[  ],
+			"middle":	[  ],
+			"end":		[  ],
+		}
+	}
+}
