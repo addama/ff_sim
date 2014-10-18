@@ -58,7 +58,6 @@ Announcer.prototype = {
 				console.debug(message);
 				break;
 			default:
-				console.log(this.channels[channel].target);
 				$('#'+this.channels[channel].target).innerHTML = this.outputMemory(channel);
 		}
 		return true;
