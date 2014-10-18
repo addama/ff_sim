@@ -24,7 +24,7 @@ Currently, the names and numbers used by the individual pieces reside with each 
 Combatants
 ----------
 
- * Races: human, dwarf, elf, halfling, troll, orc, giant
+ * Races: human, dwarf, elf, halfling, troll, orc, giant, merfolk, demon
  
  * Archetypes: tank, healer, rangedInt, rangedDex, meleeStr, meleeDex
  
@@ -48,8 +48,8 @@ Abilities resolve their functions through special objects called Effects. Straig
 
 Current Work
 ============
+
  * Polish the message log so it's readable
- * Adapt Announcer.js to be able to keep logs for individual Combatants as well as the Battle log
  * Make some kind of display function _somewhere_ to begin laying the Combatants and their info out visually
  * Clean up config.json so the Ability -> Effect relationship is more clear
  * Making sure buffs and debuffs actually modify stats
@@ -58,7 +58,7 @@ Current Work
 Future Plans
 ============
 
- * **More elements, archetypes, and races.** Merfolk (ice element only) and Demons (fire/evil/death element only) are next for races.
+ * **More elements and races.** Poison might be a good element, and I'm sure I can come up with a poison-specific race to go along with it
  * **Element-based weaknesses/strengths** that modify damage. As it is now, there are uneven groupings (4 natural elements, 2 spiritual elements, 2 balance elements, and 2 internal elements). I could adopt the standard 5 Chinese elements to replace the natural ones I have (wood/life, metal/air, earth, fire, water/ice), which have standard 'better-thans' and 'weaker-tos'. Adding elements isn't an issue - adding them with respect to all previously added elements is a little tougher.
  * **Beasts!** I want to fight not just humanoid Combatants, but Beasts. It's fair to say that Bears and Bee Swarms don't follow the same rules, archetypes, or even elements as Combatants, so a whole new object will need to be made for them.
  * **Effects with special functions.** I had attempted to start with this feature, but soon found that it would be better to get it working with simple Effects (heal, damage, dot, hot, buff, debuff). At the very least, each archetype-based Ability will have a special Effect available only to that archetype. My most likely solution will be to add a function to the Combatant prototype that will have an object containing functions for each special rule. So, `Combatant.specialEffect('guard', effect)` would run the 'guard' special function based on the Effect it's given. I would rather that be contained in the Effect, but since the results of the special function will be entirely within the Combatant, it doesn't make sense to have the function run externally.
@@ -71,5 +71,7 @@ Running ff_sim
 ==============
 
 Drop all of the files into a directory, preferably on a web server, or in an apache/xampp htdocs folder. Launch _index.htm_, and open your browser's Developer Console (usually f12). Currently, an overview of the Battle is printed to the Console. This overview contains the Combatants, their stats, abilities, and a test of what ability they would choose if it were their turn. Below that is the current turn order, which is a list of the combatants sorted by their speed, and below that the current combatant's object.
+
+On the page itself, there is a button that begins the battle. Below that are separate areas for the main battle log and each character's output. 
 
 This report is just for debugging purposes, and does not represent the final product.
