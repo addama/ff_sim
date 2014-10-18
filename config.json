@@ -673,7 +673,7 @@
 		"turnLength":		2000,
 		"logging": {
 			"logLimit":		2,
-			"logTarget":	"#battleLog",
+			"logTarget":	"battleLog",
 			"wrapper": {
 				"element":	"span",
 				"class":	"log"
