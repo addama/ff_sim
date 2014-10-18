@@ -1,10 +1,12 @@
 function Configuration() {
 	this.loadConfiguration();
+	this.loadNames();
 }
 
 Configuration.prototype = {
 	constructor: Configuration,
 	configLocation: './config.json',	// This location is relative to index.htm
+	namesLocation: './names.json',		
 	isLoaded: false,
 	
 	loadConfiguration: function() {
@@ -24,6 +26,25 @@ Configuration.prototype = {
 			}
 		};
 		xhr.open("GET", this.configLocation, true);
+		xhr.send();
+	},
+	
+	loadNames: function() {
+		var app = this;
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function()	{
+			if (xhr.readyState === 4) {
+				if (xhr.status === 200) {
+					var cfg = JSON.parse(xhr.responseText);
+					for (var element in cfg) {
+						app[element] = cfg[element];
+					}
+				} else {
+					console.warn('Could not load ' + this.namesLocation);
+				}
+			}
+		};
+		xhr.open("GET", this.namesLocation, true);
 		xhr.send();
 	},
 	
@@ -90,7 +111,9 @@ Configuration.prototype = {
 	
 	makeNewName: function(race, gender) {
 		if (config.lists.nameParts[race]) {
-			switch(config.variables.names.minParts)
+			switch(config.variables.names.minParts) {
+			
+			}
 		} else if (config.lists.names[race][gender]) {
 			return this.getRandomName(race, gender);
 		}
@@ -114,5 +137,10 @@ Configuration.prototype = {
 				return 'anonymous';
 				break;
 		}
+	},
+	
+	generateChannelName: function(object) {
+		// The added number should be 1 less than the multiplied number to ensure good randomness
+		return Math.floor((Math.random() * 100000000000000) + 10000000000000 + '00000000000000000000000000000000000000000000000000000000').toString(36);
 	},
 }

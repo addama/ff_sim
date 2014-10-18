@@ -14,10 +14,11 @@ function Battle(partySize) {
 		app.roster[name] = [];
 	}
 	
-	// Build the teams
+	// Build the teams and give each Combatant a channel
 	for (var i = 0; i < app.partySize; i++) {
 		for (var team in app.roster) {
 			var combatant = app.createCombatant(team, i.toString());
+			log.register(combatant.channel, combatant.channel);			
 			app.roster[team].push(combatant);
 		}
 		
@@ -164,19 +165,19 @@ Battle.prototype = {
 					var effect = actor.abilities[action.ability].makeEffect();
 					if (effect.target === 'selfParty') {
 						// Apply effect to the actor's team
-						log.out(actor.displayName(false) + ' used ' + actor.abilities[action.ability].title + ' on their party');
+						log.out('[' + actor.displayName(false) + '] used ' + actor.abilities[action.ability].title + ' on their party', actor.channel);
 						for (var victim in app.turnOrder) {
 							if (app.turnOrder[victim].team === actor.team) app.applyEffect(effect, action.target.team, app.turnOrder[victim].slot);
 						}
 					} else if (effect.target === 'targetParty') {
 						// Apply effect to the enemy team
-						log.out(actor.displayName(false) + ' used ' + actor.abilities[action.ability].title + ' on ' + app.roster[action.target.team][action.target.slot].displayName(false) + '\'s party');
+						log.out('[' + actor.displayName(false) + '] used ' + actor.abilities[action.ability].title + ' on ' + app.roster[action.target.team][action.target.slot].displayName(false) + '\'s party', actor.channel);
 						for (var victim in app.turnOrder) {
 							if (app.turnOrder[victim].team === action.target.team) app.applyEffect(effect, action.target.team, app.turnOrder[victim].slot);
 						}
 					} else {
 						// Apply effect to the chosen actor
-						log.out(actor.displayName(false) + ' used ' + actor.abilities[action.ability].title + ' on ' + app.roster[action.target.team][action.target.slot].displayName(false));
+						log.out('[' + actor.displayName(false) + '] used ' + actor.abilities[action.ability].title + ' on ' + app.roster[action.target.team][action.target.slot].displayName(false), actor.channel);
 						app.applyEffect(effect, action.target.team, action.target.slot);
 					}
 				}

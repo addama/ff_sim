@@ -72,8 +72,10 @@ function Combatant(team, slot, archetype, element, race, gender) {
 	
 	// Assign abilities to behavior hooks
 	this.behavior = {};
-	this.assignBehaviorHooks();
 	
+	// Generate the channel key this Combatant will use
+	this.channel = config.generateChannelName();
+
 	// Create a memory container
 	this.memory = {};
 	this.memory.hits = {};
@@ -91,6 +93,11 @@ function Combatant(team, slot, archetype, element, race, gender) {
 Combatant.prototype = {
 	constructor: Combatant,
 
+	genderSymbols: {
+		'male': '&#9794;',
+		'female': '&#9792;'
+	},
+	
 	zipperStat: function(stat) {
 		// Combine all of the stat layers and return the current effective amount for that stat 
 		var result = this.stats.race[stat] + this.stats.archetype[stat] + this.stats.mod[stat];
@@ -131,19 +138,9 @@ Combatant.prototype = {
 		return result;
 	},
 	
-	assignBehaviorHooks: function() {
-		/* 
-			this.behavior.brave: ability to use when everything's fine
-			this.behavior.danger: ability to use at low health
-			this.behavior.concern: ability to use when others are in danger
-			this.behavior.idle: ability to use when nothing important is happening
-
-
-		*/
-	
-		
-		
-
+	displayCard: function() {
+		var result = '[' + this.genderSymbols[this.gender] + this.race + this.element + this.archetype + ']';
+		return result;
 	},
 	
 	alterHealth: function(name, amount, element, type) {
@@ -151,18 +148,18 @@ Combatant.prototype = {
 		if (type === 'heal' || type === 'hot') {
 			this.stats.health.now += amount;
 			if (this.stats.health.now > this.stats.health.max) this.stats.health.now = this.stats.health.max;
-			log.out(this.displayName(false) + ' was healed by ' + name + ' for ' + amount + ' (' + this.stats.health.now + '/' + this.stats.health.max + ')');
+			log.out(this.displayCard() + this.displayName(false) + ' was healed by ' + name + ' for ' + amount + ' (' + this.stats.health.now + '/' + this.stats.health.max + ')', this.channel);
 			return false;
 		} else if (type === 'damage' || type === 'dot') {
 			if (amount >= this.stats.health.now) {
 				this.stats.health.now = 0;
 				this.isAlive = false;
 				var remaining = amount - this.stats.health.now;
-				log.out(this.displayName(false) + ' took ' + amount + ' ' + element + ' damage from ' + name + ' and died (' + remaining + ' overkill).');
+				log.out(this.displayCard() + this.displayName(false) + ' took ' + amount + ' ' + element + ' damage from ' + name + ' and died (' + remaining + ' overkill).', this.channel);
 				return true;
 			} else {
 				this.stats.health.now -= amount;
-				log.out(this.displayName(false) + ' took ' + amount + ' ' + element + ' damage from ' + name + '(' + this.stats.health.now + '/' + this.stats.health.max + ')');
+				log.out(this.displayCard() + this.displayName(false) + ' took ' + amount + ' ' + element + ' damage from ' + name + '(' + this.stats.health.now + '/' + this.stats.health.max + ')', this.channel);
 				return false;
 			}
 		}
@@ -171,11 +168,11 @@ Combatant.prototype = {
 	takeEffect: function(effect) {
 		// Adds the Effect to the Combatant.effects
 		if (this.effects[effect.type]) {
-			log.out(config.titleCase(this.effects[effect.type].title) + ' effect was refreshed on ' + this.displayName());
+			log.out(this.displayCard() + config.titleCase(this.effects[effect.type].title) + ' effect was refreshed on ' + this.displayName(), this.channel);
 			this.effects[effect.type] = effect;
 		} else {
 			this.effects[effect.type] = effect;
-			log.out(this.displayName(false) + ' gained the ' + config.titleCase(this.effects[effect.type].title) + ' effect');
+			log.out(this.displayCard() + this.displayName(false) + ' gained the ' + config.titleCase(this.effects[effect.type].title) + ' effect', this.channel);
 		}
 	},
 	

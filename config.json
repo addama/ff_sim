@@ -8,7 +8,7 @@
 		"effects": 		[ "heal", "damage", "dot", "hot", "buff", "debuff" ],
 		"stats": 		[ "strength", "dexterity", "intellect", "wisdom", "vitality", "speed" ],
 		"abilityTypes":	[ "race", "element", "archetype" ],
-		"abilities": 	[ "attack", "fire", "ice", "earth", "air", "holy", "evil", "life", "death", "physical", "psychic", "human", "dwarf", "elf", "halfling", "troll", "giant", "orc", "tank", "healer", "rangedInt", "rangedDex", "meleeDex", "meleeStr"	],
+		"abilities": 	[ "attack", "fire", "ice", "earth", "air", "holy", "evil", "life", "death", "physical", "psychic", "human", "dwarf", "elf", "halfling", "troll", "giant", "orc", "tank", "healer", "rangedInt", "rangedDex", "meleeDex", "meleeStr"	]
 	},
 	
 	"buffTargets": {
@@ -672,7 +672,7 @@
 		"teams":			2,
 		"turnLength":		2000,
 		"logging": {
-			"logLimit":		35,
+			"logLimit":		2,
 			"logTarget":	"#battleLog",
 			"wrapper": {
 				"element":	"span",

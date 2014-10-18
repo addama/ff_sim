@@ -2,100 +2,100 @@
 	"human": {
 		"full": {
 			"male": 	[ "nathan", "steve", "john", "michael", "james", "jim", "adam", "william", "robert", "jordan", "ian", "gregory", "kyle", "grant", "boris", "fred", "bob", "gary", "victor", "vincent" ],
-			"female": 	[ "molly", "jennifer", "vivian", "julie", "gertrude", "gretchen", "hannah", "sarah", "jacqueline", "gwendolyn", "micah", "rachel", "courtney", "angelina", "erin", "brittany", "brandy" ],
+			"female": 	[ "molly", "jennifer", "vivian", "julie", "gertrude", "gretchen", "hannah", "sarah", "jacqueline", "gwendolyn", "micah", "rachel", "courtney", "angelina", "erin", "brittany", "brandy" ]
 		},
 		"parts": {
-			"start":	[ "hay", "brad", "rem", "rob", "burt" ],
+			"start":	[ "hay", "brad", "rem", "rob", "burt", "benn", "reigh", "hol", "bob", "eng", "ang", "org" ],
 			"middle":	[ "ing" ],
-			"end":		[ "ton", "son", "ford", "shire", "lin", "der", "don", "ham", "nel" ],
+			"end":		[ "ton", "son", "ford", "shire", "lin", "der", "don", "ham", "nel", "stein", "stine", "isson", "esse", "shire", "ram", "stone" ]
 		}
 	},
 	"dwarf": {
 		"full": {
-			"male": 	[  ],
-			"female": 	[  ],
+			"male": 	[ "balin", "borin", "simi", "bort", "vili", "ve", "odrin", "thorin", "thuraz", "asuz", "lukaz", "jek", "holdrin", "brann", "kilin", "helas", "verin", "freki", "geri", "mannaz", "manni" ],
+			"female": 	[  ]
 		},
 		"parts": {
-			"start":	[  ],
+			"start":	[ "bal", "hol", "vel", "ur", "ul", "bor", "vil", "od", "luk", "jek", "kil", "ver", "bur", "mann", "vin", "sim", "yer" ],
 			"middle":	[  ],
-			"end":		[  ],
+			"end":		[ "in", "az", "ar", "or", "uz", "om" ]
 		}
 	},
 	"elf": {
 		"full": {
 			"male": 	[  ],
-			"female": 	[  ],
+			"female": 	[  ]
 		},
 		"parts": {
 			"start":	[  ],
 			"middle":	[  ],
-			"end":		[  ],
+			"end":		[  ]
 		}
 	},
 	"orc": {
 		"full": {
-			"male": 	[  ],
-			"female": 	[  ],
+			"male": 	[ "bloodeye", "onehand", "blackforge", "gutgrinder", "roteye", "fourtoes", "mankiller", "beastlord", "halfheart", "farseer" ],
+			"female": 	[ "greki", "ferri", "anaki", "brekki", "hreski", "hrikki", "vori", "nrissi", "mbassi", "jossi", "shessakki", "shekki", "gekki" ]
 		},
 		"parts": {
-			"start":	[  ],
+			"start":	[ "blood", "black", "red", "green", "dark", "one", "four", "nine", "half", "far", "great", "hate", "man" ],
 			"middle":	[  ],
-			"end":		[  ],
+			"end":		[ "forge", "hand", "gut", "foot", "killer", "eye", "heart", "flame", "stone", "seer" ]
 		}
 	},
 	"halfling": {
 		"full": {
 			"male": 	[  ],
-			"female": 	[  ],
+			"female": 	[  ]
 		},
 		"parts": {
-			"start":	[  ],
+			"start":	[ "tom", "bomb", "bad", "dill", "flower", "mud", "swamp", "hill", "under", "rain", "sun", "grumble", "grin", "grinning", "quiet", "black", "break", "tool" ],
 			"middle":	[  ],
-			"end":		[  ],
+			"end":		[ "hearth", "home", "fire", "seeker", "heart", "son", "foot" ]
 		}
 	},
 	"troll": {
 		"full": {
 			"male": 	[  ],
-			"female": 	[  ],
+			"female": 	[  ]
 		},
 		"parts": {
-			"start":	[  ],
-			"middle":	[  ],
-			"end":		[  ],
+			"start":	[ "t", "g", "k", "h", "q", "s" ],
+			"middle":	[ "a", "o", "u", "i", "rr", "aa", "oo", "ha", "ho", "hi", "hu", "huu", "haa", "hrr" ],
+			"end":		[ "s", "t", "ss", "v", "l" ]
 		}
 	},
 	"giant": {
 		"full": {
 			"male": 	[  ],
-			"female": 	[  ],
+			"female": 	[  ]
 		},
 		"parts": {
 			"start":	[  ],
 			"middle":	[  ],
-			"end":		[  ],
+			"end":		[  ]
 		}
 	},
 	"merfolk": {
 		"full": {
 			"male": 	[  ],
-			"female": 	[  ],
+			"female": 	[  ]
 		},
 		"parts": {
 			"start":	[  ],
 			"middle":	[  ],
-			"end":		[  ],
+			"end":		[  ]
 		}
 	},
 	"demon": {
 		"full": {
 			"male": 	[  ],
-			"female": 	[  ],
+			"female": 	[  ]
 		},
 		"parts": {
 			"start":	[  ],
 			"middle":	[  ],
-			"end":		[  ],
+			"end":		[  ]
 		}
 	}
 }
