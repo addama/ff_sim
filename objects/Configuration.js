@@ -99,9 +99,11 @@ Configuration.prototype = {
 		var show = stat.substr(0,3);
 		return show.toUpperCase();
 	},
+	
 	titleCase: function(str) {
 		return str.replace(/\b\w+/g,function(s){return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();});
 	},
+	
 	abbreviateStat: function(stat) {
 		// Return a 3 letter abbreviation of the given stat name
 		if (stat === 'speed') stat = 'spd';

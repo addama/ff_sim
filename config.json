@@ -260,119 +260,119 @@
 				"speed": 		1
 			},
 			"dwarf": {
-				"strength": 	1,
-				"dexterity": 	1,
+				"strength": 	2,
+				"dexterity": 	0,
 				"intellect": 	1,
-				"wisdom": 		1,
-				"vitality": 	1,
+				"wisdom": 		2,
+				"vitality": 	3,
 				"speed": 		1
 			},
 			"elf": {
 				"strength": 	1,
-				"dexterity": 	1,
-				"intellect": 	1,
+				"dexterity": 	3,
+				"intellect": 	2,
 				"wisdom": 		1,
 				"vitality": 	1,
-				"speed": 		1
+				"speed": 		2
 			},
 			"orc": {
-				"strength": 	1,
+				"strength": 	3,
 				"dexterity": 	1,
-				"intellect": 	1,
-				"wisdom": 		1,
+				"intellect": 	0,
+				"wisdom": 		0,
 				"vitality": 	1,
 				"speed": 		1
 			},
 			"troll": {
 				"strength": 	1,
-				"dexterity": 	1,
+				"dexterity": 	2,
 				"intellect": 	1,
-				"wisdom": 		1,
-				"vitality": 	1,
+				"wisdom": 		3,
+				"vitality": 	3,
 				"speed": 		1
 			},
 			"halfling": {
-				"strength": 	1,
-				"dexterity": 	1,
-				"intellect": 	1,
+				"strength": 	-1,
+				"dexterity": 	3,
+				"intellect": 	2,
 				"wisdom": 		1,
-				"vitality": 	1,
-				"speed": 		1
+				"vitality": 	0,
+				"speed": 		3
 			},
 			"giant": {
-				"strength": 	1,
+				"strength": 	3,
 				"dexterity": 	1,
-				"intellect": 	1,
-				"wisdom": 		1,
-				"vitality": 	1,
-				"speed": 		1
+				"intellect": 	-1,
+				"wisdom": 		0,
+				"vitality": 	3,
+				"speed": 		-1
 			},
 			"merfolk": {
 				"strength": 	1,
-				"dexterity": 	1,
-				"intellect": 	1,
+				"dexterity": 	2,
+				"intellect": 	3,
 				"wisdom": 		1,
 				"vitality": 	1,
-				"speed": 		1
+				"speed": 		2
 			},
 			"demon": {
-				"strength": 	1,
+				"strength": 	3,
 				"dexterity": 	1,
 				"intellect": 	1,
-				"wisdom": 		1,
-				"vitality": 	1,
-				"speed": 		1
+				"wisdom": 		2,
+				"vitality": 	2,
+				"speed": 		2
 			}
 		},
 		
 		"archetypes": {
 			"tank": {
-				"strength": 	1,
+				"strength": 	2,
 				"dexterity": 	1,
-				"intellect": 	1,
+				"intellect": 	2,
 				"wisdom": 		1,
-				"vitality": 	1,
+				"vitality": 	3,
 				"speed": 		1
 			},
 			"healer": {
 				"strength": 	1,
 				"dexterity": 	1,
-				"intellect": 	1,
-				"wisdom": 		1,
-				"vitality": 	1,
+				"intellect": 	2,
+				"wisdom": 		3,
+				"vitality": 	2,
 				"speed": 		1
 			},
 			"rangedInt": {
 				"strength": 	1,
-				"dexterity": 	1,
-				"intellect": 	1,
+				"dexterity": 	3,
+				"intellect": 	2,
 				"wisdom": 		1,
 				"vitality": 	1,
-				"speed": 		1
+				"speed": 		2
 			},
 			"rangedDex": {
-				"strength": 	1,
-				"dexterity": 	1,
+				"strength": 	2,
+				"dexterity": 	3,
 				"intellect": 	1,
 				"wisdom": 		1,
 				"vitality": 	1,
-				"speed": 		1
+				"speed": 		2
 			},
 			"meleeStr": {
-				"strength": 	1,
+				"strength": 	3,
 				"dexterity": 	1,
 				"intellect": 	1,
 				"wisdom": 		1,
-				"vitality": 	1,
-				"speed": 		1
+				"vitality": 	2,
+				"speed": 		2
 			},
 			"meleeDex": {
-				"strength": 	1,
-				"dexterity": 	1,
+				"strength": 	2,
+				"dexterity": 	2,
 				"intellect": 	1,
 				"wisdom": 		1,
 				"vitality": 	1,
-				"speed": 		1
+				"speed": 		3
 			}
 		}
 	},
@@ -668,9 +668,9 @@
 	},
 	
 	"variables": {
-		"partySize": 		3,
+		"partySize": 		100,
 		"teams":			2,
-		"turnLength":		2000,
+		"turnLength":		1000,
 		"logging": {
 			"logLimit":		2,
 			"logTarget":	"battleLog",

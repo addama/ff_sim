@@ -5,6 +5,9 @@ setTimeout(function() {
 	log = new Announcer();
 	battle = new Battle();
 	
+	
+	
+	
 }, 100);
 
 $('#startBattle').addEventListener('click', function(event) {

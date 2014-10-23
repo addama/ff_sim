@@ -86,7 +86,6 @@ function Combatant(team, slot, archetype, element, race, gender) {
 	console.log(this.displayMeta());
 	console.log(this.displayStats());
 	console.log(this.displayAbilities());
-	console.log(this.chooseAbility());
 	console.groupEnd();
 };
 
@@ -102,6 +101,10 @@ Combatant.prototype = {
 		// Combine all of the stat layers and return the current effective amount for that stat 
 		var result = this.stats.race[stat] + this.stats.archetype[stat] + this.stats.mod[stat];
 		return result;
+	},
+	
+	getHealthPercentage: function() {
+		return Math.floor((this.stats.health.now / this.stats.health.max) * 100) + '%';
 	},
 	
 	displayStats: function() {
@@ -125,11 +128,8 @@ Combatant.prototype = {
 	},
 	
 	displayName: function(verbose) {
-		function titleCase(str) {
-			return str.replace(/\b\w+/g,function(s){return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();});
-		}
-
-		var result = titleCase(this.gender) + ' ' + titleCase(this.titles.race) + ' ' + this.titles.archetype;
+		var result = '' + this.genderSymbols[this.gender] + ' ' + config.titleCase(this.titles.race) + ' ' + this.titles.archetype;
+		if (verbose) result += ' [' + this.getHealthPercentage() + ']';
 		return result;		
 	},
 	
@@ -138,8 +138,8 @@ Combatant.prototype = {
 		return result;
 	},
 	
-	displayCard: function() {
-		var result = '[' + this.genderSymbols[this.gender] + this.race + this.element + this.archetype + ']';
+	displayTeam: function() {
+		var result = '[' + this.team + ':' + this.slot + '] ';
 		return result;
 	},
 	
@@ -148,18 +148,18 @@ Combatant.prototype = {
 		if (type === 'heal' || type === 'hot') {
 			this.stats.health.now += amount;
 			if (this.stats.health.now > this.stats.health.max) this.stats.health.now = this.stats.health.max;
-			log.out(this.displayCard() + this.displayName(false) + ' was healed by ' + name + ' for ' + amount + ' (' + this.stats.health.now + '/' + this.stats.health.max + ')', this.channel);
+			log.out(this.displayName(true) + ' +' + amount + ' (' + name + ')', this.channel);
 			return false;
 		} else if (type === 'damage' || type === 'dot') {
 			if (amount >= this.stats.health.now) {
 				this.stats.health.now = 0;
 				this.isAlive = false;
 				var remaining = amount - this.stats.health.now;
-				log.out(this.displayCard() + this.displayName(false) + ' took ' + amount + ' ' + element + ' damage from ' + name + ' and died (' + remaining + ' overkill).', this.channel);
+				log.out(this.displayName(true) + ' -' + amount + ' (' + element + ') ' + name + ' --> DEAD (' + remaining + ' overkill).', this.channel);
 				return true;
 			} else {
 				this.stats.health.now -= amount;
-				log.out(this.displayCard() + this.displayName(false) + ' took ' + amount + ' ' + element + ' damage from ' + name + '(' + this.stats.health.now + '/' + this.stats.health.max + ')', this.channel);
+				log.out(this.displayName(true) + ' -' + amount + ' (' + element + ') ' + name, this.channel);
 				return false;
 			}
 		}
@@ -168,11 +168,11 @@ Combatant.prototype = {
 	takeEffect: function(effect) {
 		// Adds the Effect to the Combatant.effects
 		if (this.effects[effect.type]) {
-			log.out(this.displayCard() + config.titleCase(this.effects[effect.type].title) + ' effect was refreshed on ' + this.displayName(), this.channel);
+			//log.out(this.displayName(true) + ' refreshed their ' + config.titleCase(this.effects[effect.type].title) + ' effect', this.channel);
 			this.effects[effect.type] = effect;
 		} else {
 			this.effects[effect.type] = effect;
-			log.out(this.displayCard() + this.displayName(false) + ' gained the ' + config.titleCase(this.effects[effect.type].title) + ' effect', this.channel);
+			log.out(this.displayName(true) + ' gained ' + config.titleCase(this.effects[effect.type].title), this.channel);
 		}
 	},
 	
@@ -190,11 +190,8 @@ Combatant.prototype = {
 			case 'target':
 			case 'targetParty':
 			default:
-				for (var person in state) {
-					if (state[person].team !== this.team) {
-						return {'target': {'team': state[person].team, 'slot': state[person].slot}, 'ability': rand};
-					}
-				}
+				var enemy = state['bad'][Math.floor(Math.random() * state['bad'].length)];
+				return {'target': {'team': enemy.team, 'slot': enemy.slot}, 'ability': rand};
 				break;
 		}		
 	},
@@ -208,7 +205,7 @@ Combatant.prototype = {
 				this.effects[effect].tick();
 				
 				if (!this.effects[effect].isAlive) {
-					log.out(this.effects[effect].title + ' faded from ' + this.displayName());
+					log.out(this.displayName(false) + ' lost ' + this.effects[effect].title, this.channel);
 					this.effects[effect] = null;
 				}
 			}

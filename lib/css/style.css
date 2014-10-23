@@ -1,2 +1,5 @@
 body { background-color: black; }
+div#channels { width: 100%; }
+div#right { float: right; display: line-item; text-align: right; }
+div#left { float: left; display: line-item; }
 span.log { }
