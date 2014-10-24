@@ -2,10 +2,12 @@ function Ability(type) {
 	this.type = (config.validateAbility(type)) ? type : 'attack'
 	this.title = config.titles.abilities[type];
 	this.element = (config.abilityElements[type]) ? config.abilityElements[type] : this.type;
+	this.cooldown = (config.abilities[type].cooldown) ? config.abilities[type].cooldown : config.variables.defaults.cooldown;
 	this.baseDamage = (config.abilities[type].baseDamage) ? config.abilities[type].baseDamage : config.variables.defaults.baseDamage;
 	this.effect = (config.abilities[type].effect.type) ? config.abilities[type].effect.type : config.variables.defaults.effect;
 	this.target = (config.abilities[type].effect.target) ? config.abilities[type].effect.target : config.variables.defaults.target;
-		
+	this.already = 0;
+	this.onCooldown = false;
 	this.payLoad = this.makeEffect();
 };
 
@@ -52,5 +54,17 @@ Ability.prototype = {
 	makeEffect: function() {
 		var effect = new Effect(this.effect, this.element, this.target, this.baseDamage);
 		return effect;
+	},
+	
+	tick: function() {
+		if (this.onCooldown && this.already === this.cooldown) {
+			this.already = 0;
+			this.onCooldown = false;
+		} else if (this.onCooldown) {
+			this.already += 1;
+			this.onCooldown = true;
+		} else {
+			// Nothing
+		}
 	},
 }
