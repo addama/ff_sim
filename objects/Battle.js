@@ -91,9 +91,10 @@ Battle.prototype = {
 			this.currentCombatant = 0;
 		}
 		if (!this.turnOrder) this.makeTurnOrder();
+		log.out(this.currentCombatant, 'console');
 		var slot = this.turnOrder[this.currentCombatant].slot;
 		var side = this.turnOrder[this.currentCombatant].team;
-		return this.roster[side][slot];	
+		return this.roster[side][slot];			
 	},
 	
 	nextActor: function() {
@@ -105,7 +106,7 @@ Battle.prototype = {
 		}
 		var actor = this.getCurrentActor();
 		if (actor.isAlive === false) {
-			log.out('Actor not alive, skipping');
+			//log.out('Actor not alive, skipping');
 			while (this.currentCombatant.isAlive === false) {
 				if (this.currentCombatant >= this.turnOrder.length - 1) {
 					this.currentCombatant = 0;
@@ -152,17 +153,20 @@ Battle.prototype = {
 		//console.group('BATTLE ' + this.memory.battles + ' BEGINS');
 		var app = this;
 		app.inProgress = true;
+		log.out('BATTLE ' + this.memory.battles + ' START');
 		app.gameLoop = setInterval(function() {
 			if (app.teamsAreAlive()) {
 				// Execute a single turn
 				app.makeTurnOrder();
 				var actor = app.getCurrentActor();
-				var state = app.generateState(actor.team);
-				var action = actor.chooseAbility(state);
 				actor.tickEffects();
+
 				if (actor.isAlive === false) {
-					log.out(actor.displayName(false) + ' is dead...');
+					log.out(actor.displayName(false) + ' is dead...', actor.channe);
 				} else {
+					var state = app.generateState(actor.team);
+					var action = actor.chooseAbility(state);
+				
 					var effect = actor.abilities[action.ability].makeEffect();
 					if (effect.target === 'selfParty') {
 						// Apply effect to the actor's team
@@ -185,7 +189,7 @@ Battle.prototype = {
 				app.nextActor();
 				app.memory.turns += 1;
 			} else {
-				log.out('BATTLE END');
+				log.out('BATTLE ' + app.memory.battles + ' END AFTER ' + app.memory.turns + ' turns');
 				clearInterval(app.gameLoop);
 			}
 		}, app.turnLength);
