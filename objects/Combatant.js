@@ -57,8 +57,8 @@ function Combatant(team, slot, archetype, element, race, gender) {
 		strength: 0, dexterity: 0, intellect: 0, wisdom: 0, vitality: 0, speed: 0
 	}
 	this.stats.health = {
-		now: this.zipperStat('vitality') * 5,
-		max: this.zipperStat('vitality') * 5
+		now: Math.floor(this.zipperStat('vitality') * config.variables.vitalityMultiplier),
+		max: Math.floor(this.zipperStat('vitality') * config.variables.vitalityMultiplier)
 	}
 	
 	// Get basic abilities
@@ -82,11 +82,11 @@ function Combatant(team, slot, archetype, element, race, gender) {
 	this.memory.hits.given = 0;
 	this.memory.hits.taken = 0;
 	
-	console.groupCollapsed(this.displayName());
-	console.log(this.displayMeta());
-	console.log(this.displayStats());
-	console.log(this.displayAbilities());
-	console.groupEnd();
+	//console.groupCollapsed(this.displayName(true));
+	//console.log(this.displayMeta());
+	//console.log(this.displayStats());
+	//console.log(this.displayAbilities());
+	//console.groupEnd();
 };
 
 Combatant.prototype = {
@@ -101,6 +101,14 @@ Combatant.prototype = {
 		// Combine all of the stat layers and return the current effective amount for that stat 
 		var result = this.stats.race[stat] + this.stats.archetype[stat] + this.stats.mod[stat];
 		return result;
+	},
+	
+	updateVitality: function() {
+		// If Vitality changes, the values in this.stats.health need to be adjusted accordingly
+		this.stats.health = {
+			now: Math.floor(this.zipperStat('vitality') * config.variables.vitalityMultiplier),
+			max: Math.floor(this.zipperStat('vitality') * config.variables.vitalityMultiplier)
+		}
 	},
 	
 	getHealthPercentage: function() {
@@ -168,7 +176,7 @@ Combatant.prototype = {
 	takeEffect: function(effect) {
 		// Adds the Effect to the Combatant.effects
 		if (this.effects[effect.type]) {
-			//log.out(this.displayName(true) + ' refreshed their ' + config.titleCase(this.effects[effect.type].title) + ' effect', this.channel);
+			log.out(this.displayName(true) + ' refreshed their ' + config.titleCase(this.effects[effect.type].title) + ' effect', this.channel);
 			this.effects[effect.type] = effect;
 		} else {
 			this.effects[effect.type] = effect;
@@ -179,21 +187,35 @@ Combatant.prototype = {
 	chooseAbility: function(state) {
 		// Chooses an ability index based on the state object given
 		// There is currently no AI here, just random numbers. Behavior will be added later
-		var rand = Math.floor(Math.random() * this.abilities.length);
-		var choice = this.abilities[rand];
-		switch (choice.target) {
-			case 'self':
-			case 'selfParty':
-				return {'target': {'team': this.team, 'slot': this.slot}, 'ability': rand};
-				break;
-				
-			case 'target':
-			case 'targetParty':
-			default:
-				var enemy = state['bad'][Math.floor(Math.random() * state['bad'].length)];
-				return {'target': {'team': enemy.team, 'slot': enemy.slot}, 'ability': rand};
-				break;
-		}		
+		
+		var available = this.abilities.filter(function(value, index, array) {
+			if (this.abilities[index].onCooldown === false) return true;
+			return false;
+		}, this);
+		if (available.length > 0) {
+			var rand = Math.floor(Math.random() * available.length);
+			var choice = available[rand];
+			var actual = this.abilities.filter(function(value, index, array) {
+				if (this.abilities[index].type === choice.type) return true;
+			}, this);
+			actual.onCooldown = true;
+			
+			switch (choice.target) {
+				case 'self':
+				case 'selfParty':
+					return {'target': {'team': this.team, 'slot': this.slot}, 'ability': rand};
+					break;
+					
+				case 'target':
+				case 'targetParty':
+				default:
+					var enemy = state['bad'][Math.floor(Math.random() * state['bad'].length)];
+					return {'target': {'team': enemy.team, 'slot': enemy.slot}, 'ability': rand};
+					break;
+			}
+		} else {
+			return false;
+		}
 	},
 	
 	tickEffects: function() {
@@ -208,6 +230,10 @@ Combatant.prototype = {
 					log.out(this.displayName(false) + ' lost ' + this.effects[effect].title, this.channel);
 					this.effects[effect] = null;
 				}
+			}
+			
+			for (var ability in this.abilities) {
+				this.abilities[ability].tick();
 			}
 		}
 	},
