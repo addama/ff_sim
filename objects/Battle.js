@@ -18,6 +18,7 @@ function Battle(partySize) {
 	for (var i = 0; i < app.partySize; i++) {
 		for (var team in app.roster) {
 			var combatant = app.createCombatant(team, i.toString());
+			log.out(combatant.channel + ' ' + team, 'console');
 			log.register(combatant.channel, combatant.channel, team);			
 			app.roster[team].push(combatant);
 		}
@@ -73,6 +74,7 @@ Battle.prototype = {
 	teamsAreAlive: function() {
 		// Check each team to see if at least once of their combatants are alive
 		// Returns false if any teams are completely dead
+		var deadTeams = 0;
 		for (var team in this.roster) {
 			var teamDeaths = 0;
 			for (var person in this.roster[team]) {
@@ -80,8 +82,11 @@ Battle.prototype = {
 			}
 			if (teamDeaths === this.partySize) {
 				log.out('Team ' + team + ' is completely wiped out.');
-				return false;
+				deadTeams += 1;
 			}
+		}
+		if (deadTeams === config.variables.teams - 1) {
+			return false;
 		}
 		return true;
 	},
@@ -92,9 +97,14 @@ Battle.prototype = {
 		}
 		if (!this.turnOrder) this.makeTurnOrder();
 		log.out(this.currentCombatant, 'console');
-		var slot = this.turnOrder[this.currentCombatant].slot;
-		var side = this.turnOrder[this.currentCombatant].team;
-		return this.roster[side][slot];			
+		if (this.turnOrder[this.currentCombatant]) {
+			var slot = this.turnOrder[this.currentCombatant].slot;
+			var side = this.turnOrder[this.currentCombatant].team;
+			return this.roster[side][slot];	
+		} else {
+			return false;
+		}
+				
 	},
 	
 	nextActor: function() {
@@ -105,7 +115,7 @@ Battle.prototype = {
 			this.currentCombatant += 1;
 		}
 		var actor = this.getCurrentActor();
-		if (actor.isAlive === false) {
+		if (actor === null || actor.isAlive === false) {
 			//log.out('Actor not alive, skipping');
 			while (this.currentCombatant.isAlive === false) {
 				if (this.currentCombatant >= this.turnOrder.length - 1) {
@@ -162,7 +172,7 @@ Battle.prototype = {
 				actor.tickEffects();
 
 				if (actor.isAlive === false) {
-					log.out(actor.displayName(false) + ' is dead...', actor.channe);
+					log.out(actor.displayName(false) + ' is dead...', actor.channel);
 				} else {
 					var state = app.generateState(actor.team);
 					var action = actor.chooseAbility(state);

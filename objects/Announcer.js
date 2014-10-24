@@ -41,7 +41,7 @@ Announcer.prototype = {
 	
 	remember: function(channel, message) {
 		this.channels[channel].memory.push(this.wrap(message));
-		if (this.channels[channel].memory.length >= this.logLimit) {
+		if (this.channels[channel].memory.length > this.logLimit) {
 			var junk = this.channels[channel].memory.shift();
 		}
 	},
@@ -69,6 +69,9 @@ Announcer.prototype = {
 					break;
 				case 'debug':
 					console.debug(message);
+					break;
+				case 'default':
+					$('#'+this.channels[channel].target).innerHTML = message;
 					break;
 				default:
 					$('#'+this.channels[channel].target).innerHTML = this.outputMemory(channel);
