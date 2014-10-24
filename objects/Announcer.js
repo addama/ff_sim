@@ -23,7 +23,6 @@ Announcer.prototype = {
 	wrapper: {},
 	
 	checkChannel: function(channel) {
-		if (!channel) channel = 'default';
 		if (!this.channels[channel]) {
 			console.warn('Announcer: Channel "' + channel + '" does not exist. Use Announcer.register(name, target) to register a new channel');
 			return false;
@@ -60,6 +59,7 @@ Announcer.prototype = {
 	
 	out: function(message, channel, icon) {
 		// Sends a message to the given channel, or to the console, and prepends the given icon if any
+		if (!channel) channel = 'default';
 		if (this.checkChannel(channel)) {
 			this.remember(channel, message);
 			// Will output via the specified channel
@@ -97,7 +97,6 @@ Announcer.prototype = {
 			var newChannel = document.createElement('div');
 			newChannel.id = target;
 			if (area) {
-				console.log(area);
 				$('#'+area).appendChild(newChannel);
 			} else {
 				$('#channels').appendChild(newChannel);

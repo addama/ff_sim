@@ -24,7 +24,7 @@ Currently, the names and numbers used by the individual pieces reside with each 
 Combatants
 ----------
 
- * Races: human, dwarf, elf, halfling, troll, orc, giant, merfolk, demon
+ * Races: human, dwarf, elf, halfling, troll, orc, giant
  
  * Archetypes: tank, healer, rangedInt, rangedDex, meleeStr, meleeDex
  
@@ -34,7 +34,7 @@ Combatants
  
 A combatant is created with these four qualities, each randomized. Races and Archetypes each have a layer of stats which can be zippered together (along with miscellaneous mods) into a singular stat. With the exception of Gender, each quality has a corresponding Ability. 
 
-For example, let's create a new Combatant: `var gary = new Combatant('left', 0, 'rangedInt', 'fire', 'troll', 'male')` The Combatant constructor recognizes that the combination of 'fire' element and 'rangedInt' archetype should be called a 'Pyromancer'. It also sees that Gary is both 'fire' element and 'troll' race, which it knows is called a 'fire troll'. This is displayed to the user as "Gary, Fire Troll Pyromancer".
+For example, let's create a new Combatant: `var gary = new Combatant('left', 0, 'healer', 'fire', 'troll', 'male')` The Combatant constructor recognizes that the combination of 'fire' element and 'rangedInt' archetype should be called a 'Pyromancer'. It also sees that Gary is both 'fire' element and 'troll' race, which it knows is called a 'fire troll'. This is displayed to the user as "Gary, Fire Troll Pyromancer".
 
 Abilities
 ---------
@@ -49,16 +49,15 @@ Abilities resolve their functions through special objects called Effects. Straig
 Current Work
 ============
 
- * Polish the message log so it's readable
- * Make some kind of display function _somewhere_ to begin laying the Combatants and their info out visually
- * Clean up config.json so the Ability -> Effect relationship is more clear
+ * Finish Announcer.js so it's fully integrated into all other objects.
+ * Completing the turn execution structure so that all effects, damage, and messages are passed appropriately.
  * Making sure buffs and debuffs actually modify stats
  * Adding stat-based damage modifiers
 
 Future Plans
 ============
 
- * **More elements and races.** Poison might be a good element, and I'm sure I can come up with a poison-specific race to go along with it
+ * **More elements, archetypes, and races.** Merfolk (ice element only) and Demons (fire/evil/death element only) are next for races.
  * **Element-based weaknesses/strengths** that modify damage. As it is now, there are uneven groupings (4 natural elements, 2 spiritual elements, 2 balance elements, and 2 internal elements). I could adopt the standard 5 Chinese elements to replace the natural ones I have (wood/life, metal/air, earth, fire, water/ice), which have standard 'better-thans' and 'weaker-tos'. Adding elements isn't an issue - adding them with respect to all previously added elements is a little tougher.
  * **Beasts!** I want to fight not just humanoid Combatants, but Beasts. It's fair to say that Bears and Bee Swarms don't follow the same rules, archetypes, or even elements as Combatants, so a whole new object will need to be made for them.
  * **Effects with special functions.** I had attempted to start with this feature, but soon found that it would be better to get it working with simple Effects (heal, damage, dot, hot, buff, debuff). At the very least, each archetype-based Ability will have a special Effect available only to that archetype. My most likely solution will be to add a function to the Combatant prototype that will have an object containing functions for each special rule. So, `Combatant.specialEffect('guard', effect)` would run the 'guard' special function based on the Effect it's given. I would rather that be contained in the Effect, but since the results of the special function will be entirely within the Combatant, it doesn't make sense to have the function run externally.
@@ -66,13 +65,10 @@ Future Plans
  * **Combatant "Quality".** Just to spice things up more, I would like to add another layer to Combatants: quality. This will take the form of a descriptor that has a direct modification to their behavior and stats. This can be as simple as "slow", which lowers speed, or "veteran", which increases a bunch of stats. In addition to these, I'd like to add descriptors that have no benefit besides flavor text, e.g. "old", "purple", "bad-smelling", etc. 
  * **Armor and weapons.** I'm on the fence about this one, but I've thought about adding Armor and Weapons to the game as randomized qualities passed to the Combatant constructor. These will probably operate on a secondary stat level, like Attack and Defense, but will have other logical stat changes (plate armor lowers Speed, for example). Armor will not get an Ability assigned to it, but Weapon probably will.
  * **Sprites!** Given that Combatants are composed of layers of distinct qualities, a set of layered, transparent sprite images seems appropriate. To go along with these, backgrounds, Ability effects (explosions, etc), and status icons. 
- * **Large scale battles.** I would probably add a division above the party (faction[party1, partyN], faction[party1, partyN]) that can hold a specific number of parties. At this point, I would like to add an "aggro" system so that battles with multiple teams will swing as each faction's attention is drawn between its enemies. I can't comfortably do this without reducing the footprint of some things, so each individual object doesn't have to carry around so much information.
 
 Running ff_sim
 ==============
 
 Drop all of the files into a directory, preferably on a web server, or in an apache/xampp htdocs folder. Launch _index.htm_, and open your browser's Developer Console (usually f12). Currently, an overview of the Battle is printed to the Console. This overview contains the Combatants, their stats, abilities, and a test of what ability they would choose if it were their turn. Below that is the current turn order, which is a list of the combatants sorted by their speed, and below that the current combatant's object.
-
-On the page itself, there is a button that begins the battle. Below that are separate areas for the main battle log and each character's output. 
 
 This report is just for debugging purposes, and does not represent the final product.
