@@ -27,7 +27,8 @@
 	"abilities": {
 		"fire": {
 			"element": "fire",
-			"baseDamage": 1,
+			"baseDamage": 5,
+			"cooldown": 0,
 			"effect": {
 				"type": "damage",
 				"target": "target"
@@ -35,7 +36,8 @@
 		},
 		"ice": {
 			"element": "ice",
-			"baseDamage": 1,
+			"baseDamage": 5,
+			"cooldown": 0,
 			"effect": {
 				"type": "damage",
 				"target": "target"
@@ -44,6 +46,7 @@
 		"earth": {
 			"element": "earth",
 			"baseDamage": 1,
+			"cooldown": 5,
 			"effect": {
 				"type": "dot",
 				"target": "targetParty"
@@ -51,7 +54,8 @@
 		},
 		"air": {
 			"element": "air",
-			"baseDamage": 1,
+			"baseDamage": 5,
+			"cooldown": 2,
 			"effect": {
 				"type": "damage",
 				"target": "target"
@@ -60,6 +64,7 @@
 		"holy": {
 			"element": "holy",
 			"baseDamage": 1,
+			"cooldown": 3,
 			"effect": {
 				"type": "buff",
 				"target": "selfParty"
@@ -68,6 +73,7 @@
 		"evil": {
 			"element": "evil",
 			"baseDamage": 1,
+			"cooldown": 5,
 			"effect": {
 				"type": "debuff",
 				"target": "targetParty"
@@ -76,6 +82,7 @@
 		"life": {
 			"element": "life",
 			"baseDamage": 1,
+			"cooldown": 3,
 			"effect": {
 				"type": "hot",
 				"target": "target"
@@ -84,6 +91,7 @@
 		"death": {
 			"element": "death",
 			"baseDamage": 1,
+			"cooldown": 3,
 			"effect": {
 				"type": "dot",
 				"target": "target"
@@ -91,7 +99,8 @@
 		},
 		"physical": {
 			"element": "physical",
-			"baseDamage": 1,
+			"baseDamage": 5,
+			"cooldown": 0,
 			"effect": {
 				"type": "damage",
 				"target": "target"
@@ -99,7 +108,8 @@
 		},
 		"psychic": {
 			"element": "psychic",
-			"baseDamage": 1,
+			"baseDamage": 5,
+			"cooldown": 0,
 			"effect": {
 				"type": "damage",
 				"target": "target"
@@ -110,6 +120,7 @@
 		"human": {
 			"element": "physical",
 			"baseDamage": 1,
+			"cooldown": 3,
 			"effect": {
 				"type": "hot",
 				"target": "self"
@@ -118,6 +129,7 @@
 		"dwarf": {
 			"element": "physical",
 			"baseDamage": 1,
+			"cooldown": 3,
 			"effect": {
 				"type": "buff",
 				"target": "self"
@@ -126,6 +138,7 @@
 		"elf": {
 			"element": "physical",
 			"baseDamage": 1,
+			"cooldown": 3,
 			"effect": {
 				"type": "buff",
 				"target": "self"
@@ -134,6 +147,7 @@
 		"halfling": {
 			"element": "physical",
 			"baseDamage": 1,
+			"cooldown": 3,
 			"effect": {
 				"type": "buff",
 				"target": "self"
@@ -142,6 +156,7 @@
 		"troll": {
 			"element": "physical",
 			"baseDamage": 1,
+			"cooldown": 3,
 			"effect": {
 				"type": "hot",
 				"target": "self"
@@ -150,6 +165,7 @@
 		"orc": {
 			"element": "physical",
 			"baseDamage": 1,
+			"cooldown": 3,
 			"effect": {
 				"type": "buff",
 				"target": "self"
@@ -157,7 +173,8 @@
 		},
 		"giant": {
 			"element": "physical",
-			"baseDamage": 1,
+			"baseDamage": 2,
+			"cooldown": 4,
 			"effect": {
 				"type": "damage",
 				"target": "targetParty"
@@ -165,7 +182,8 @@
 		},
 		"merfolk": {
 			"element": "ice",
-			"baseDamage": 1,
+			"baseDamage": 2,
+			"cooldown": 4,
 			"effect": {
 				"type": "damage",
 				"target": "targetParty"
@@ -173,7 +191,8 @@
 		},
 		"demon": {
 			"element": "fire",
-			"baseDamage": 1,
+			"baseDamage": 2,
+			"cooldown": 2,
 			"effect": {
 				"type": "dot",
 				"target": "targetParty"
@@ -185,6 +204,7 @@
 		"tank": {
 			"element": "physical",
 			"baseDamage": 1,
+			"cooldown": 2,
 			"effect": {
 				"type": "buff",
 				"target": "self"
@@ -192,7 +212,8 @@
 		},
 		"healer": {
 			"element": "life",
-			"baseDamage": 1,
+			"baseDamage": 2,
+			"cooldown": 2,
 			"effect": {
 				"type": "heal",
 				"target": "selfParty"
@@ -201,6 +222,7 @@
 		"meleeDex": {
 			"element": "physical",
 			"baseDamage": 1,
+			"cooldown": 5,
 			"effect": {
 				"type": "damage",
 				"target": "target"
@@ -208,7 +230,8 @@
 		},
 		"meleeStr": {
 			"element": "physical",
-			"baseDamage": 1,
+			"baseDamage": 2,
+			"cooldown": 2,
 			"effect": {
 				"type": "damage",
 				"target": "targetParty"
@@ -216,7 +239,8 @@
 		},
 		"rangedInt": {
 			"element": "fire",
-			"baseDamage": 1,
+			"baseDamage": 5,
+			"cooldown": 2,
 			"effect": {
 				"type": "damage",
 				"target": "target"
@@ -224,7 +248,8 @@
 		},
 		"rangedDex": {
 			"element": "physical",
-			"baseDamage": 1,
+			"baseDamage": 5,
+			"cooldown": 2,
 			"effect": {
 				"type": "damage",
 				"target": "target"
@@ -256,8 +281,8 @@
 				"dexterity": 	1,
 				"intellect": 	1,
 				"wisdom": 		1,
-				"vitality": 	1,
-				"speed": 		1
+				"vitality": 	2,
+				"speed": 		2
 			},
 			"dwarf": {
 				"strength": 	2,
@@ -668,11 +693,12 @@
 	},
 	
 	"variables": {
-		"partySize": 		100,
+		"partySize": 		2,
 		"teams":			2,
 		"turnLength":		1000,
+		"vitalityMultiplier":	5.7,
 		"logging": {
-			"logLimit":		2,
+			"logLimit":		5,
 			"logTarget":	"battleLog",
 			"wrapper": {
 				"element":	"span",
@@ -692,6 +718,7 @@
 		"defaults": {
 			"name":			"anonymous",
 			"baseDamage": 	10,
+			"cooldown":		1,
 			"element": 		"physical",
 			"archetype": 	"meleeStr",
 			"gender": 		"male",
